@@ -71,9 +71,6 @@ public class OrderDAO {
         }
     }
 
-    public List<Order> getOrder(){
-
-    }
 
 
 }

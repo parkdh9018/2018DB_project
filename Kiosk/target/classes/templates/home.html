@@ -113,4 +113,48 @@
 </div>
 
 </body>
+<script type="text/javascript">
+
+    // $(document).ready(function(){
+    //
+    //     $.ajax({
+    //         url: "/getKeyword",
+    //         type: "POST",
+    //         dataType: "json",
+    //         contentType: "application/json",
+    //         data: JSON.stringify(null)
+    //     }).done(function (data){
+    //         for (var i = 0; i < data.length; i++) {
+    //             word.push(data[i].word);
+    //             count.push(parseInt(data[i].totalWeight * 10));
+    //         }
+    //         RandomNum();
+    //         main(0);
+    //     });
+    //
+    // });
+
+    $(".btn").click(function (data) {
+        alert($(this).html());
+
+            $.ajax({
+                url: "/getMenu",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify($(this).html()),
+                success : function (data){
+                    for (var i = 0; i < data.length; i++) {
+                        alert(data[i].foodname);
+                    }
+                },
+                fail : function (){
+                    alert("fail");
+                }
+            });
+    });
+
+
+
+</script>
 </html>

@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -65,9 +64,11 @@ public class MenuDAO {
         }
     }
     public List<Food> getFood(String category){
+        System.out.println("ee");
         con = DBconnect.getConnection();
         List<Food> list = null;
 
+        System.out.println("ee");
         try{
             sql = "SELECT * FROM FOOD WHERE category = ?";
             pstmt = con.prepareStatement(sql);
@@ -99,7 +100,7 @@ public class MenuDAO {
 
         return list;
     }
-    public List<Drink> getDrink(String category){
+    public List<Drink> getDrink(){
         con = DBconnect.getConnection();
         List<Drink> list = null;
 

@@ -9,6 +9,6 @@
       <case-sensitivity plain-identifiers="upper" quoted-identifiers="exact" />
       <user-name>ST2013113082</user-name>
       <introspection-schemas>*:@</introspection-schemas>
-    </data-source>
-  </component>
+</data-source>
+        </component>
 </project>
