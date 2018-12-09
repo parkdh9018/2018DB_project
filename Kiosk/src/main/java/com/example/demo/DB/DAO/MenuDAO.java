@@ -18,7 +18,9 @@ public class MenuDAO {
     private Connection con = null;
     private Statement stmt = null;
     private PreparedStatement pstmt = null;
+    private PreparedStatement pstmt2 = null;
     private ResultSet rs = null;
+    private ResultSet rs2 = null;
     private  String sql = null;
 
     public MenuDAO(){}
@@ -131,42 +133,61 @@ public class MenuDAO {
 
         return list;
     }
-//    public List<Setmenu> getAllSetmenu(){
-//
-//        con = DBconnect.getConnection();
-//        List<Setmenu> list = null;
-//
-//        try{
-//            sql = "SELECT * FROM SETMENU ";
-//            pstmt = con.prepareStatement(sql);
-//
-//            rs = pstmt.executeQuery();
-//
-//            if(rs.next()){
-//
-//                list = new ArrayList<Setmenu>();
-//
-//                do {
-//                    Setmenu setmenu = new Setmenu();
-//                    setmenu.setCategory(rs.getString("category"));
-//                    setmenu.setDrinkname(rs.getString("drinkname"));
-//                    setmenu.setDrinksize(rs.getString("drinksize"));
-//                    setmenu.setPrice(rs.getString("price"));
-//                    list.add(setmenu);
-//                }while(rs.next());
-//            }else{
-//                list = Collections.EMPTY_LIST;
-//            }
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }finally {
-//            DBconnect.close(con, pstmt,rs);
-//        }
-//
-//        return list;
-//
-//    }
+    public List<Setmenu> getSetmenu(String category){
+
+        con = DBconnect.getConnection();
+        List<Setmenu> list = null;
+
+        try{
+            sql = " SELECT * FROM SETMENU WHERE CATEGORY = ?";
+            pstmt.setString(1,category);
+            pstmt = con.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                list = new ArrayList<Setmenu>();
+                do {
+                    Setmenu setmenu = new Setmenu();
+                    setmenu.setSetmenuid(rs.getString("setmenuid"));
+                    setmenu.setSettype(rs.getString("settype"));
+                    setmenu.setTotalprice(rs.getString("totalprice"));
+
+                    sql = "SELECT * FROM SUBITEM WHERE SETMENUID  = " + setmenu.getSetmenuid()
+                            +" AND TYPE = food";
+                    pstmt2 = con.prepareStatement(sql);
+                    rs2 = pstmt2.executeQuery();
+
+                    if(rs2.next()){
+                        do{
+                            setmenu.setFoodname(rs2.getString("foodname"));
+                        }while(rs2.next());
+                    }
+
+                    sql = "SELECT * FROM SUBITEM WHERE SETMENUID  = " + setmenu.getSetmenuid()
+                            +" AND TYPE = drink";
+                    pstmt2 = con.prepareStatement(sql);
+                    rs2 = pstmt2.executeQuery();
+
+                    if(rs2.next()){
+                        do{
+                            setmenu.setFoodname(rs2.getString("drinkname"));
+                        }while(rs2.next());
+                    }
+
+                }while(rs.next());
+            }else{
+                list = Collections.EMPTY_LIST;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            DBconnect.close(con, pstmt,rs);
+        }
+
+        return list;
+
+    }
 
 
 
