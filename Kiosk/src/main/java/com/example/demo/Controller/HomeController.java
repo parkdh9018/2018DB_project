@@ -14,9 +14,23 @@ public class HomeController {
 
     @GetMapping("/home")
     public String home(Model model){
-
-
         return "home";
+    }
+    @GetMapping("/evaluation")
+    public String evaluation(Model model){
+        return "evaluation";
+    }
+    @GetMapping("/payment")
+    public String payment(Model model){
+        return "payment";
+    }
+    @GetMapping("/admin")
+    public String admin(Model model){
+        return "admin";
+    }
+    @GetMapping("/support")
+    public String support(Model model){
+        return "support";
     }
 
 }

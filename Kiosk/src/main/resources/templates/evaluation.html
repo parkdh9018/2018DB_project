@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> 식사 평가하기 </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../static/homepage.css"></script>
+</head>
+<body>
+<nav id="myNavbar" class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">FOOD COURT</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="nav navbar-nav">
+                <li><a href="home">Home</a></li>
+                <li class="active"><a href="evaluation">음식 평가</a></li>
+                <li><a href="https://www.tutorialrepublic.com/contact-us.php" target="_blank">직원 호출</a></li>
+                <li><a href="support">도움말</a></li>
+                <li><a href="admin">관리자 모드</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="col-7">
+    <button type="button" class="btn btn-default" style="width:100pt;height:30pt">전체</button>
+    <button type="button" class="btn btn-primary" style="width:100pt;height:30pt">한식</button>
+    <button type="button" class="btn btn-info" style="width:100pt;height:30pt">일식</button>
+    <button type="button" class="btn btn-success" style="width:100pt;height:30pt">중식</button>
+    <button type="button" class="btn btn-warning" style="width:100pt;height:30pt">양식</button>
+    <button type="button" class="btn btn-danger" style="width:100pt;height:30pt" onClick="location.href("support")">도움말</button>
+    <button type="button" class="btn btn-link" style="width:100pt;height:30pt" onClick="location.href("admin")">관리자 모드</button>
+    <hr>
+</div>
+<div class="bs-example">
+    <div class="container">
+        <form><!-- form action 설정 필요 -->
+            <legend> 오늘 식사는 어떠셨나요? </legend>
+            <div class="row">
+                 <label>점수로 평가해 주세요(1점~5점)</label>
+                <input type="range" name="score" min="1" max="5" value="3" width="20%"/>
+            </div>
+            <br/>
+            <div class="row">
+                <label>더 전하실 말씀이 있으시다면 입력해 주세요</label>
+                <br/>
+                <textarea cols="50" rows="10" name="other"></textarea>
+            </div>
+            <div class="row">
+            <button type="submit" class="btn btn-success btn-lg">제출하기</button>
+            <button type="reset" class="btn btn-success btn-lg">다시 적기</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
