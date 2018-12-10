@@ -1,10 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title> 도움말 </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>알러지 정보</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/homepage.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-
+<nav id="myNavbar" class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">FOOD COURT</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="nav navbar-nav">
+                <li><a href="home">Home</a></li>
+                <li><a href="evaluation">음식 평가</a></li>
+                <li><a href="https://www.tutorialrepublic.com/contact-us.php" target="_blank">직원 호출</a></li>
+                <li class="active"><a href="support">알러지 정보</a></li>
+                <li><a href="admin">관리자 모드</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="col-7">
+    <button type="button" class="btn btn-default" style="width:100pt;height:30pt">전체</button>
+    <button type="button" class="btn btn-primary" style="width:100pt;height:30pt">한식</button>
+    <button type="button" class="btn btn-info" style="width:100pt;height:30pt">일식</button>
+    <button type="button" class="btn btn-success" style="width:100pt;height:30pt">중식</button>
+    <button type="button" class="btn btn-warning" style="width:100pt;height:30pt">양식</button>
+    <button type="button" class="btn btn-danger" style="width:100pt;height:30pt" onClick="location.href("support")">알러지 정보</button>
+    <button type="button" class="btn btn-link" style="width:100pt;height:30pt" onClick="location.href("admin")">관리자 모드</button>
+    <hr>
+</div>
+<div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Row</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Carter</td>
+            <td>johncarter@mail.com</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Peter</td>
+            <td>Parker</td>
+            <td>peterparker@mail.com</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>John</td>
+            <td>Rambo</td>
+            <td>johnrambo@mail.com</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

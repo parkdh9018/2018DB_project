@@ -12,3 +12,8 @@
     margin: 20px;
 }
 .centered { display: table; margin-left: auto; margin-right: auto; }
+
+h6 {
+    text-align: center;
+    color: black;
+}
