@@ -23,9 +23,9 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="home">Home</a></li>
                 <li><a href="evaluation">음식 평가</a></li>
-                <li><a href="https://www.tutorialrepublic.com/contact-us.php">직원 호출</a></li>
+                <li><a href="#none" onclick="alert('잠시만 기다려주세요')">직원 호출</a></li>
                 <li><a href="support">알러지 정보</a></li>
-                <li><a href="admin">관리자 모드</a></li>
+                <li><a href="login" onclick="window.open(this.href, '_blank', 'width=500px,height=200px,toolbars=no,scrollbars=no'); return false;">관리자 모드</a></li>
             </ul>
         </div>
     </div>
@@ -114,9 +114,9 @@
     function addOrder(name, price){
         alert(name);
         $record = $('<tr>\n' +
-            '<th>김치찌개</th>\n' +
-            '<th>3000</th>\n' +
-            '<th>2</th>\n' +
+            '<th></th>\n' +
+            '<th></th>\n' +
+            '<th></th>\n' +
             '</tr>');
 
         $record.children('th:eq(0)').html(name);

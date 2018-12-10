@@ -38,6 +38,10 @@ public class HomeController {
     public String support(Model model){
         return "support";
     }
+    @GetMapping("/login")
+    public String login(Model model){
+        return "login";
+    }
 
     @ResponseBody
     @PostMapping("/getMenu")
