@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> Food Kiosk</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet"href="css/homepage.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../static/homepage.css"></script>
+
 </head>
 <body>
 <nav id="myNavbar" class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
@@ -34,38 +35,13 @@
     <div class="container">
         <div class="row">
             <ul class="nav nav-pills">
-                <li class="active"><a href="#">전체</a></li>
-                <li><a href="#">한식</a></li>
+                <li class="active"><a href="#">한식</a></li>
                 <li><a href="#">중식</a></li>
                 <li><a href="#">일식</a></li>
                 <li><a href="#">양식</a></li>
             </ul>
             <div class="col-sm-8">
-            <div class="col-xs-3">
-                <a href="#" class="thumbnail">
-                    <img src="img/125x125.jpg" alt="125x125">
-                </a>
-            </div>
-                <div class="col-xs-3">
-                    <a href="#" class="thumbnail">
-                        <img src="img/125x125.jpg" alt="125x125">
-                    </a>
-                </div>
-                <div class="col-xs-3">
-                    <a href="#" class="thumbnail">
-                        <img src="img/125x125.jpg" alt="125x125">
-                    </a>
-                </div>
-                <div class="col-xs-3">
-                    <a href="#" class="thumbnail">
-                        <img src="img/125x125.jpg" alt="125x125">
-                    </a>
-                </div>
-                <div class="col-xs-3">
-                    <a href="#" class="thumbnail">
-                        <img src="img/125x125.jpg" alt="125x125">
-                    </a>
-                </div>
+
             </div>
 
             <div class="col-sm-4">
@@ -87,44 +63,49 @@
 </body>
 <script type="text/javascript">
 
-    // $(document).ready(function(){
-    //
-    //     $.ajax({
-    //         url: "/getKeyword",
-    //         type: "POST",
-    //         dataType: "json",
-    //         contentType: "application/json",
-    //         data: JSON.stringify(null)
-    //     }).done(function (data){
-    //         for (var i = 0; i < data.length; i++) {
-    //             word.push(data[i].word);
-    //             count.push(parseInt(data[i].totalWeight * 10));
-    //         }
-    //         RandomNum();
-    //         main(0);
-    //     });
-    //
-    // });
-
-    $(".btn").click(function (data) {
-        alert($(this).html());
-
-            $.ajax({
-                url: "/getMenu",
-                type: "POST",
-                dataType: "json",
-                contentType: "application/json",
-                data: JSON.stringify($(this).html()),
-                success : function (data){
-                    for (var i = 0; i < data.length; i++) {
-                        alert(data[i].foodname);
-                    }
-                },
-                fail : function (){
-                    alert("fail");
-                }
-            });
+    $(document).ready(function(){
+        addmenu("한식");
     });
+
+
+    $(".nav-pills li").click(function (data) {
+        //alert($(this).children().html());
+        $("ul li").removeClass("active");
+        $(this).addClass("active");
+        addmenu($(this).children().html());
+    });
+
+    function addmenu(category) {
+        $.ajax({
+            url: "/getMenu",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: category,
+            success : function (data){
+                $('.col-xs-3').remove();
+                for(var i=0;i<data.length;i++) {
+                    $menuButton = $('<div class="col-xs-3">\n' +
+                        '                <a href="#" class="thumbnail">\n' +
+                        '                    <img src="img/125x125.jpg" alt="125x125">\n' +
+                        '                    <div class="name"></div><div class="price"></div>' +
+                        '                </a>\n' +
+                        '            </div>');
+
+                    $image = $('<img src="img/125x125.jpg" alt="125x125">');
+
+                    $menuButton.children().children('.name').html(data[i].foodname+'<br>');
+                    $menuButton.children().children('.price').html(data[i].price);
+                    $(".col-sm-8").append($menuButton);
+                }
+            },
+            fail : function (){
+                alert("fail");
+            }
+        });
+
+
+    }
 
 
 

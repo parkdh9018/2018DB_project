@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Setmenu {
     private String setmenuid;
-    private String settype;
-    private String totalprice;
+    private String category;
+    private int totalprice;
     private List<String> foodname;
     private List<String> drinkname;
 
@@ -23,12 +23,13 @@ public class Setmenu {
         this.setmenuid = setmenuid;
     }
 
-    public String getSettype() {
-        return settype;
+    public String getCategory() {
+        return category;
     }
 
-    public void setSettype(String settype) {
-        this.settype = settype;
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public void setFoodname(String foodname) { this.foodname.add(foodname); }
@@ -38,17 +39,17 @@ public class Setmenu {
         this.drinkname.add(drinkname);
     }
 
-    public String getTotalprice() {
+    public int getTotalprice() {
         return totalprice;
     }
 
-    public void setTotalprice(String totalprice) {
+    public void setTotalprice(int totalprice) {
         this.totalprice = totalprice;
     }
 
     public String toStringCompoenet(){
-        String result = null;
-        for(int i=0;i<foodname.size();i++)
+        String result = foodname.get(0);
+        for(int i=1;i<foodname.size();i++)
             result += "+"+foodname.get(i);
 
         for(int i=0;i<drinkname.size();i++)
