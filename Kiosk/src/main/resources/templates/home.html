@@ -39,6 +39,7 @@
                 <li><a href="#">중식</a></li>
                 <li><a href="#">일식</a></li>
                 <li><a href="#">양식</a></li>
+                <li><a href="#">음료</a></li>
             </ul>
             <div class="col-sm-8">
 
@@ -91,6 +92,7 @@
                 for(var i=0;i<data.length;i++) {
                     var foodname = $.trim(data[i].foodname);
                     var price = $.trim(data[i].price);
+                    var imageurl = $.trim(data[i].imageurl);
 
                     $menuButton = $('<div class="col-xs-3">\n' +
                         '                <a href="javascript:addOrder(\''+ foodname+'\','+price+')" class="thumbnail">\n' +
@@ -99,8 +101,7 @@
                         '                </a>\n' +
                         '            </div>');
 
-                    $image = $('<img src="img/125x125.jpg" alt="125x125">');
-
+                    $menuButton.children().children('img').attr('src',imageurl);
                     $menuButton.children().children('.name').html(foodname+'<br>');
                     $menuButton.children().children('.price').html(price);
                     $(".col-sm-8").append($menuButton);
@@ -118,15 +119,23 @@
             '<th></th>\n' +
             '</tr>');
 
-         if($("th:contains('"+name+"')").html() != undefined) {
-             var count = $("tr:contains('"+name+"')").children('th:eq(2)').html();
-             $("tr:contains('"+name+"')").children('th:eq(2)').html(++count);
-         } else {
+
+        if($(".table tr th").filter(function() {
+            return $(this).text() === name;
+        }).next().next().html() != undefined){
+            var count = $(".table tr th").filter(function() {
+                return $(this).text() === name;
+            }).next().next().html();
+            $(".table tr th").filter(function() {
+                return $(this).text() === name;
+            }).next().next().html(++count);
+        }else{
             $record.children('th:eq(0)').html(name);
             $record.children('th:eq(1)').html(price);
             $record.children('th:eq(2)').html(1);
             $('.table').children().append($record);
         }
+
         
     }
     function resetOrder() {

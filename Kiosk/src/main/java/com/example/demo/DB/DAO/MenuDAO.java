@@ -90,6 +90,7 @@ public class MenuDAO {
                     food.setFoodname(rs.getString("foodname"));
                     food.setPrice(rs.getInt("price"));
                     food.setScoreavg(rs.getString("scoreavg"));
+                    food.setImageurl(rs.getString("foodimage"));
                     list.add(food);
                 }while(rs.next());
             }else{
@@ -120,10 +121,9 @@ public class MenuDAO {
 
                 do {
                     Drink drink = new Drink();
-                    drink.setCategory(rs.getString("category"));
                     drink.setDrinkname(rs.getString("drinkname"));
-                    drink.setDrinksize(rs.getString("drinksize"));
-                    drink.setPrice(rs.getString("price"));
+                    drink.setPrice(rs.getInt("price"));
+                    drink.setImageurl(rs.getString("drinkimage"));
                     list.add(drink);
                 }while(rs.next());
             }else{

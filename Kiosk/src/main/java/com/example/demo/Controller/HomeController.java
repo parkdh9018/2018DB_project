@@ -2,6 +2,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.DB.DAO.MenuDAO;
 import com.example.demo.DB.DBconnect;
+import com.example.demo.DB.DTO.Drink;
 import com.example.demo.DB.DTO.Food;
 import com.example.demo.DB.DTO.Setmenu;
 import org.springframework.stereotype.Controller;
@@ -52,21 +53,29 @@ public class HomeController {
         MenuDAO menuDAO = new MenuDAO();
         List<Food> list = new ArrayList<Food>();
         List<Setmenu> setlist = new ArrayList<Setmenu>();
+        List<Drink> drinkList = new ArrayList<Drink>();
 
-        //menuDAO.insertFood("중식","깐풍기",15000);
-        list.addAll(menuDAO.getFood(data));
-        setlist.addAll(menuDAO.getSetmenu(data));
+        if(!data.equals("음료")) {
+            list.addAll(menuDAO.getFood(data));
+            setlist.addAll(menuDAO.getSetmenu(data));
 
-        System.out.println("set size : "+setlist.size());
+            for (Setmenu setmenu : setlist) {
+                Food food = new Food();
+                food.setFoodname(setmenu.toStringCompoenet());
+                food.setPrice(setmenu.getTotalprice());
+                list.add(food);
+            }
+        }else{
+            drinkList.addAll(menuDAO.getDrink());
+            for (Drink drink : drinkList) {
+                Food food = new Food();
+                food.setFoodname(drink.getDrinkname());
+                food.setPrice(drink.getPrice());
+                food.setImageurl(drink.getImageurl());
+                list.add(food);
+            }
 
-        for (Setmenu setmenu : setlist) {
-
-            Food food = new Food();
-            food.setFoodname(setmenu.toStringCompoenet());
-            food.setPrice(setmenu.getTotalprice());
-            list.add(food);
         }
-
 
         return list;
 
