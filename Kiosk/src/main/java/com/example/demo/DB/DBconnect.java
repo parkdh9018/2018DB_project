@@ -4,12 +4,12 @@ import java.sql.*;
 
 public class DBconnect {
     private static String url = "jdbc:oracle:thin:@210.94.199.20:1521:DBLAB";
-    private static String driverName = "oracle.jdbc.driver.OracleDriver";
+    private static String driverName = "oracle.jdbc.OracleDriver";
     private static String username = "ST2013113082";
     private static String password = "ST2013113082";
     private static Connection con;
 
-    public static Connection getConnection() {
+    public Connection getConnection() {
         try {
             Class.forName(driverName);
             try {

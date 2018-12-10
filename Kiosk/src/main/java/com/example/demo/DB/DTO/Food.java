@@ -3,17 +3,18 @@ package com.example.demo.DB.DTO;
 
 public class Food {
 
-  private String price;
+  private int price;
   private String foodname;
   private String scoreavg;
   private String category;
+  private String imageurl;
 
 
-  public String getPrice() {
+  public int getPrice() {
     return price;
   }
 
-  public void setPrice(String price) {
+  public void setPrice(int price) {
     this.price = price;
   }
 
@@ -44,4 +45,11 @@ public class Food {
     this.category = category;
   }
 
+  public String getImageurl() {
+    return imageurl;
+  }
+
+  public void setImageurl(String imageurl) {
+    this.imageurl = imageurl;
+  }
 }

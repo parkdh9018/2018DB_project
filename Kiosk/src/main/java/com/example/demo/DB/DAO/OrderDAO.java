@@ -21,11 +21,14 @@ public class OrderDAO {
     private ResultSet rs2 = null;
     private String sql = null;
     private String ordercode = null;
+    private DBconnect dBconnect = null;
 
-    public OrderDAO(){}
+    public OrderDAO(){
+        dBconnect = new DBconnect();
+
+    }
 
     public void insertOrder(String[] type, String[] name){
-        con = DBconnect.getConnection();
         int cnt = 0;
         String typeAttribute = null;
 
@@ -36,6 +39,7 @@ public class OrderDAO {
         SimpleDateFormat dayTime2 = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         String date = dayTime2.format(new Date(time));
 
+        con = dBconnect.getConnection();
         try{
             sql="INSERT INTO ORDERMENU(ORDERCODE, ORDEREDDATE) VALUES(?,?)";
             pstmt = con.prepareStatement(sql);
