@@ -57,7 +57,7 @@
                     <form action="payment">
                     <p>
                        <input type="submit" class="btn btn-success btn-lg" value="결제" onclick="location.href='payment'">
-                       <button type="reset" class="btn btn-success btn-lg">주문 초기화</button>
+                       <button type="reset" class="btn btn-success btn-lg" onclick="javascript:resetOrder()">주문 초기화</button>
                     </p>
                     </form>
                 </div>
@@ -112,17 +112,30 @@
         });
     }
     function addOrder(name, price){
-        alert(name);
         $record = $('<tr>\n' +
             '<th></th>\n' +
             '<th></th>\n' +
             '<th></th>\n' +
             '</tr>');
 
-        $record.children('th:eq(0)').html(name);
-        $record.children('th:eq(1)').html(price);
-        $record.children('th:eq(2)').html(1);
-        $('.table').children().append($record);
+         if($("th:contains('"+name+"')").html() != undefined) {
+             var count = $("tr:contains('"+name+"')").children('th:eq(2)').html();
+             $("tr:contains('"+name+"')").children('th:eq(2)').html(++count);
+         } else {
+            $record.children('th:eq(0)').html(name);
+            $record.children('th:eq(1)').html(price);
+            $record.children('th:eq(2)').html(1);
+            $('.table').children().append($record);
+        }
+        
+    }
+    function resetOrder() {
+        $('.table').children().remove();
+        $('.table').append('<tr>\n' +
+            '<th>음식이름</th>\n' +
+            '<th>가격</th>\n' +
+            '<th>개수</th>\n' +
+            '</tr>');
     }
 
 
