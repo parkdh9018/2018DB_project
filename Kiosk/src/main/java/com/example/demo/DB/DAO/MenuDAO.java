@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,13 +21,16 @@ public class MenuDAO {
     private ResultSet rs = null;
     private ResultSet rs2 = null;
     private  String sql = null;
+    private  DBconnect dBconnect = null;
 
-    public MenuDAO(){}
+    public MenuDAO(){
+
+
+    }
 
     public void insertFood(String category, String foodname, int price){
-        con = DBconnect.getConnection();
-
-
+        dBconnect = new DBconnect();
+        con = dBconnect.getConnection();
         try{
             sql="INSERT INTO FOOD(CATEGORY, FOODNAME, PRICE) VALUES(?,?,?)";
             pstmt = con.prepareStatement(sql);
@@ -45,8 +47,8 @@ public class MenuDAO {
         }
     }
     public void insertDrink(String category, String drinksize, String drinkname, int price, String companyname ){
-        con = DBconnect.getConnection();
-
+        dBconnect = new DBconnect();
+        con = dBconnect.getConnection();
         try{
             sql="INSERT INTO DRINK(CATEGORY,DRINKSIZE ,DRINKNAME, PRICE, COMPANYNAME) VALUES(?,?,?,?,?)";
             pstmt = con.prepareStatement(sql);
@@ -65,15 +67,18 @@ public class MenuDAO {
         }
     }
     public List<Food> getFood(String category){
-        con = DBconnect.getConnection();
         List<Food> list = null;
-
+        dBconnect = new DBconnect();
+        con = dBconnect.getConnection();
         try{
-            sql = "SELECT * FROM FOOD WHERE category = ?";
+            sql = "SELECT * FROM FOOD WHERE CATEGORY = RPAD(?,50)";
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1,category);
 
             rs = pstmt.executeQuery();
+
+            if(!rs.isBeforeFirst())
+                System.out.println("no data");
 
             if(rs.next()){
 
@@ -83,7 +88,7 @@ public class MenuDAO {
                     Food food = new Food();
                     food.setCategory(rs.getString("category"));
                     food.setFoodname(rs.getString("foodname"));
-                    food.setPrice(rs.getString("price"));
+                    food.setPrice(rs.getInt("price"));
                     food.setScoreavg(rs.getString("scoreavg"));
                     list.add(food);
                 }while(rs.next());
@@ -99,10 +104,10 @@ public class MenuDAO {
 
         return list;
     }
-    public List<Drink> getDrink(String category){
-        con = DBconnect.getConnection();
+    public List<Drink> getDrink(){
         List<Drink> list = null;
-
+        dBconnect = new DBconnect();
+        con = dBconnect.getConnection();
         try{
             sql = "SELECT * FROM DRINK ";
             pstmt = con.prepareStatement(sql);
@@ -135,13 +140,13 @@ public class MenuDAO {
     }
     public List<Setmenu> getSetmenu(String category){
 
-        con = DBconnect.getConnection();
         List<Setmenu> list = null;
-
+        dBconnect = new DBconnect();
+        con = dBconnect.getConnection();
         try{
-            sql = " SELECT * FROM SETMENU WHERE CATEGORY = ?";
-            pstmt.setString(1,category);
+            sql = "SELECT * FROM SETMENU WHERE CATEGORY = RPAD(?,50)";
             pstmt = con.prepareStatement(sql);
+            pstmt.setString(1,category);
             rs = pstmt.executeQuery();
 
             if(rs.next()){
@@ -149,12 +154,12 @@ public class MenuDAO {
                 do {
                     Setmenu setmenu = new Setmenu();
                     setmenu.setSetmenuid(rs.getString("setmenuid"));
-                    setmenu.setSettype(rs.getString("settype"));
-                    setmenu.setTotalprice(rs.getString("totalprice"));
+                    setmenu.setCategory(rs.getString("category"));
+                    setmenu.setTotalprice(rs.getInt("totalprice"));
 
-                    sql = "SELECT * FROM SUBITEM WHERE SETMENUID  = " + setmenu.getSetmenuid()
-                            +" AND TYPE = food";
+                    sql = "SELECT * FROM SUBITEM WHERE SETMENUID  = RPAD(?,50) AND TYPE = 'food'";
                     pstmt2 = con.prepareStatement(sql);
+                    pstmt2.setString(1,setmenu.getSetmenuid());
                     rs2 = pstmt2.executeQuery();
 
                     if(rs2.next()){
@@ -163,9 +168,9 @@ public class MenuDAO {
                         }while(rs2.next());
                     }
 
-                    sql = "SELECT * FROM SUBITEM WHERE SETMENUID  = " + setmenu.getSetmenuid()
-                            +" AND TYPE = drink";
+                    sql = "SELECT * FROM SUBITEM WHERE SETMENUID  = RPAD(?,50) AND TYPE = 'drink'";
                     pstmt2 = con.prepareStatement(sql);
+                    pstmt2.setString(1,setmenu.getSetmenuid());
                     rs2 = pstmt2.executeQuery();
 
                     if(rs2.next()){
@@ -173,7 +178,7 @@ public class MenuDAO {
                             setmenu.setFoodname(rs2.getString("drinkname"));
                         }while(rs2.next());
                     }
-
+                    list.add(setmenu);
                 }while(rs.next());
             }else{
                 list = Collections.EMPTY_LIST;

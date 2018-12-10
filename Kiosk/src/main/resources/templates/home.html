@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> Food Kiosk</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet"href="css/homepage.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../static/homepage.css"></script>
+
 </head>
 <body>
 <nav id="myNavbar" class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
@@ -23,7 +24,7 @@
                 <li class="active"><a href="home">Home</a></li>
                 <li><a href="evaluation">음식 평가</a></li>
                 <li><a href="https://www.tutorialrepublic.com/contact-us.php">직원 호출</a></li>
-                <li><a href="support">도움말</a></li>
+                <li><a href="support">알러지 정보</a></li>
                 <li><a href="admin">관리자 모드</a></li>
             </ul>
         </div>
@@ -34,46 +35,28 @@
     <div class="container">
         <div class="row">
             <ul class="nav nav-pills">
-                <li class="active"><a href="#">전체</a></li>
-                <li><a href="#">한식</a></li>
+                <li class="active"><a href="#">한식</a></li>
                 <li><a href="#">중식</a></li>
                 <li><a href="#">일식</a></li>
                 <li><a href="#">양식</a></li>
             </ul>
             <div class="col-sm-8">
-            <div class="col-xs-3">
-                <a href="#" class="thumbnail">
-                    <img src="img/125x125.jpg" alt="125x125">
-                </a>
-            </div>
-                <div class="col-xs-3">
-                    <a href="#" class="thumbnail">
-                        <img src="img/125x125.jpg" alt="125x125">
-                    </a>
-                </div>
-                <div class="col-xs-3">
-                    <a href="#" class="thumbnail">
-                        <img src="img/125x125.jpg" alt="125x125">
-                    </a>
-                </div>
-                <div class="col-xs-3">
-                    <a href="#" class="thumbnail">
-                        <img src="img/125x125.jpg" alt="125x125">
-                    </a>
-                </div>
-                <div class="col-xs-3">
-                    <a href="#" class="thumbnail">
-                        <img src="img/125x125.jpg" alt="125x125">
-                    </a>
-                </div>
+
             </div>
 
             <div class="col-sm-4">
                 <div class="jumbotron">
                     <h2>주문 상황</h2>
+                    <table class="table">
+                        <tr>
+                            <th>음식이름</th>
+                            <th>가격</th>
+                            <th>개수</th>
+                        </tr>
+                    </table>
                     <form action="payment">
                     <p>
-                       <input type="submit" class="btn btn-success btn-lg" value="결제" onclick="location.href("payment")"></input>
+                       <input type="submit" class="btn btn-success btn-lg" value="결제" onclick="location.href='payment'">
                        <button type="reset" class="btn btn-success btn-lg">주문 초기화</button>
                     </p>
                     </form>
@@ -85,4 +68,64 @@
 </div>
 
 </body>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        addmenu("한식");
+        $('.nav-pills li').click(function () {
+            $("ul li").removeClass("active");
+            $(this).addClass("active");
+            addmenu($(this).children().html());
+        });
+    });
+
+    function addmenu(category) {
+        $.ajax({
+            url: "/getMenu",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: category,
+            success : function (data){
+                $('.col-xs-3').remove();
+                for(var i=0;i<data.length;i++) {
+                    var foodname = $.trim(data[i].foodname);
+                    var price = $.trim(data[i].price);
+
+                    $menuButton = $('<div class="col-xs-3">\n' +
+                        '                <a href="javascript:addOrder(\''+ foodname+'\','+price+')" class="thumbnail">\n' +
+                        '                    <img src="img/125x125.jpg" alt="125x125">\n' +
+                        '                    <div class="name"></div><div class="price"></div>' +
+                        '                </a>\n' +
+                        '            </div>');
+
+                    $image = $('<img src="img/125x125.jpg" alt="125x125">');
+
+                    $menuButton.children().children('.name').html(foodname+'<br>');
+                    $menuButton.children().children('.price').html(price);
+                    $(".col-sm-8").append($menuButton);
+                }
+            },
+            fail : function (){
+                alert("fail");
+            }
+        });
+    }
+    function addOrder(name, price){
+        alert(name);
+        $record = $('<tr>\n' +
+            '<th></th>\n' +
+            '<th></th>\n' +
+            '<th></th>\n' +
+            '</tr>');
+
+        $record.children('th:eq(0)').html(name);
+        $record.children('th:eq(1)').html(price);
+        $record.children('th:eq(2)').html(1);
+        $('.table').children().append($record);
+    }
+
+
+
+</script>
 </html>

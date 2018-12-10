@@ -1,27 +1,26 @@
 package com.example.demo.DB;
 
-
 import java.sql.*;
 
 public class DBconnect {
     private static String url = "jdbc:oracle:thin:@210.94.199.20:1521:DBLAB";
-    private static String driverName = "com.mysql.jdbc.Driver";
+    private static String driverName = "oracle.jdbc.OracleDriver";
     private static String username = "ST2013113082";
     private static String password = "ST2013113082";
     private static Connection con;
-    private static String urlstring;
 
-    public static Connection getConnection() {
+    public Connection getConnection() {
         try {
             Class.forName(driverName);
             try {
-                con = DriverManager.getConnection(urlstring, username, password);
+                con = DriverManager.getConnection(url, username, password);
             } catch (SQLException ex) {
                 System.out.println("Failed to create the database connection.");
             }
         } catch (ClassNotFoundException ex) {
             // log an exception. for example:
             System.out.println("Driver not found.");
+            ex.printStackTrace();
         }
         return con;
     }
