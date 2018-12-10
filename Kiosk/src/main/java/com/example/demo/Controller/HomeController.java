@@ -2,6 +2,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.DB.DAO.MenuDAO;
 import com.example.demo.DB.DBconnect;
+import com.example.demo.DB.DTO.Allergy;
 import com.example.demo.DB.DTO.Drink;
 import com.example.demo.DB.DTO.Food;
 import com.example.demo.DB.DTO.Setmenu;
@@ -80,5 +81,18 @@ public class HomeController {
         return list;
 
     }
+
+    @ResponseBody
+    @PostMapping("/getAllergy")
+    public List<Allergy> getAllergy(){
+        MenuDAO menuDAO = new MenuDAO();
+        List<Allergy> list = new ArrayList<Allergy>();
+
+        list.addAll(menuDAO.getAllergyList());
+        //System.out.println("list size : "+list.size());
+
+        return list;
+    }
+
 
 }

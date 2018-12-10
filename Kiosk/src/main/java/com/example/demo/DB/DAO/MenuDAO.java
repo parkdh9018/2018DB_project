@@ -1,6 +1,7 @@
 package com.example.demo.DB.DAO;
 
 import com.example.demo.DB.DBconnect;
+import com.example.demo.DB.DTO.Allergy;
 import com.example.demo.DB.DTO.Drink;
 import com.example.demo.DB.DTO.Food;
 import com.example.demo.DB.DTO.Setmenu;
@@ -125,6 +126,42 @@ public class MenuDAO {
                     drink.setPrice(rs.getInt("price"));
                     drink.setImageurl(rs.getString("drinkimage"));
                     list.add(drink);
+                }while(rs.next());
+            }else{
+                list = Collections.EMPTY_LIST;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            DBconnect.close(con, pstmt,rs);
+        }
+
+        return list;
+    }
+    public List<Allergy> getAllergyList(){
+        List<Allergy> list = null;
+        dBconnect = new DBconnect();
+        con = dBconnect.getConnection();
+        try{
+            sql = "SELECT FOOD.FOODNAME, listagg(INGREDIENT.INGREDIENTNAME, ', ') within group(order by INGREDIENT.INGREDIENTNAME ) AS INGREDIENT\n" +
+                    "FROM FOOD ,FOOD_INGREDIENT,INGREDIENT\n" +
+                    "WHERE FOOD.FOODNAME = FOOD_INGREDIENT.FOODNAME AND\n" +
+                    "       INGREDIENT.INGREDIENTNAME = FOOD_INGREDIENT.INGREDIENTNAME AND\n" +
+                    "       ALLERGY = 1\n" +
+                    "group by FOOD.FOODNAME";
+            pstmt = con.prepareStatement(sql);
+
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+
+                list = new ArrayList<Allergy>();
+                do {
+                    Allergy allergy = new Allergy();
+                    allergy.setFood(rs.getString("foodname"));
+                    allergy.setIngredient(rs.getString("ingredient"));
+                    list.add(allergy);
                 }while(rs.next());
             }else{
                 list = Collections.EMPTY_LIST;
