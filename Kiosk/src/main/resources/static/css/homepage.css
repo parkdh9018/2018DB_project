@@ -20,6 +20,11 @@
     text-align: center;
 }
 
+#total, #totalprice, #originPrice{
+    display: inline;
+}
+
+
 .centered { display: table; margin-left: auto; margin-right: auto; }
 
 #receipt{

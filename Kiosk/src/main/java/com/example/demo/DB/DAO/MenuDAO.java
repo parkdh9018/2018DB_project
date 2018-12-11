@@ -233,14 +233,21 @@ public class MenuDAO {
         dBconnect = new DBconnect();
         con = dBconnect.getConnection();
         try{
-            sql = "(SELECT FOODNAME as name,EXPIRATIONDATE,SALERATE  FROM SALESITEM WHERE COUPONID=? AND TYPE='food'\n" +
-                    "                AND USED='0' AND EXPIRATIONDATE >= TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'))\n" +
+            sql = "(SELECT SALESITEM.FOODNAME as name, SALERATE, FOOD.PRICE AS PRICE\n" +
+                    " FROM SALESITEM, FOOD\n" +
+                    " WHERE COUPONID=RPAD(?,50) AND TYPE='food' AND USED='0' AND EXPIRATIONDATE >= TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI:SS')\n" +
+                    " AND SALESITEM.FOODNAME = FOOD.FOODNAME )\n" +
                     "UNION\n" +
-                    "(SELECT SETMENUID as name,EXPIRATIONDATE,SALERATE  FROM SALESITEM WHERE COUPONID=? AND TYPE='set'\n" +
-                    "                AND USED='0'AND EXPIRATIONDATE >= TO_DATE (SYSDATE, 'YYYY-MM-DD HH24:MI:SS'))\n" +
+                    "(SELECT SALESITEM.SETMENUID as name, SALERATE, SETMENU.TOTALPRICE AS PRICE\n" +
+                    " FROM SALESITEM, SETMENU\n" +
+                    " WHERE COUPONID=RPAD(?,50) AND TYPE='set' AND USED='0'AND EXPIRATIONDATE >= TO_DATE (SYSDATE, 'YYYY-MM-DD HH24:MI:SS')\n" +
+                    "AND SALESITEM.SETMENUID = SETMENU.SETMENUID)\n" +
                     "UNION\n" +
-                    "(SELECT DRINKNAME as name,EXPIRATIONDATE,SALERATE  FROM SALESITEM WHERE COUPONID=? AND TYPE='drink'\n" +
-                    "                AND USED='0'AND EXPIRATIONDATE >= TO_DATE (SYSDATE, 'YYYY-MM-DD HH24:MI:SS'))";
+                    "(SELECT SALESITEM.DRINKNAME as name, SALERATE, DRINK.PRICE AS PRICE\n" +
+                    " FROM SALESITEM, DRINK\n" +
+                    " WHERE COUPONID=RPAD(?,50) AND TYPE='drink' AND USED='0'AND EXPIRATIONDATE >= TO_DATE (SYSDATE, 'YYYY-MM-DD HH24:MI:SS')\n" +
+                    "AND SALESITEM.DRINKNAME = DRINK.DRINKNAME)";
+
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1,couponId);
             pstmt.setString(2,couponId);
@@ -248,12 +255,14 @@ public class MenuDAO {
 
             rs = pstmt.executeQuery();
 
-            if(!rs.isBeforeFirst())
-               coupon.setName("x");
-            else {
-                coupon.setName(rs.getString("name"));
-                coupon.setSalesRate(rs.getString("SALERATE"));
+            if(rs.next()){
+                do{
+                    coupon.setName(rs.getString("name"));
+                    coupon.setSalesRate(rs.getInt("SALERATE"));
+                    coupon.setPrice(rs.getInt("price"));
+                }while(rs.next());
             }
+
 
         }catch (Exception e){
             e.printStackTrace();

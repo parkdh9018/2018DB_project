@@ -44,39 +44,50 @@ public class HomeController {
 
     @ResponseBody
     @PostMapping("/getMenu")
-    public List<Food> getMenu(@RequestBody String data){
+    public List<Menu> getMenu(@RequestBody String data){
 
         System.out.println("data : "+data);
 
         MenuDAO menuDAO = new MenuDAO();
-        List<Food> list = new ArrayList<Food>();
+        List<Menu> menulist = new ArrayList<>();
+        List<Food> foodList = new ArrayList<Food>();
         List<Setmenu> setlist = new ArrayList<Setmenu>();
         List<Drink> drinkList = new ArrayList<Drink>();
 
         if(!data.equals("음료")) {
-            list.addAll(menuDAO.getFood(data));
+            foodList.addAll(menuDAO.getFood(data));
             setlist.addAll(menuDAO.getSetmenu(data));
 
+            for (Food food : foodList) {
+                Menu menu = new Menu();
+                menu.setName(food.getFoodname());
+                menu.setComponent(food.getFoodname());
+                menu.setImageurl(food.getImageurl());
+                menu.setPrice(food.getPrice());
+                menulist.add(menu);
+            }
             for (Setmenu setmenu : setlist) {
-                Food food = new Food();
-                food.setFoodname(setmenu.toStringCompoenet());
-                food.setPrice(setmenu.getTotalprice());
-                food.setImageurl(setmenu.getImageurl());
-                list.add(food);
+                Menu menu = new Menu();
+                menu.setName(setmenu.getSetmenuid());
+                menu.setComponent(setmenu.toStringCompoenet());
+                menu.setImageurl(setmenu.getImageurl());
+                menu.setPrice(setmenu.getTotalprice());
+                menulist.add(menu);
             }
         }else{
             drinkList.addAll(menuDAO.getDrink());
             for (Drink drink : drinkList) {
-                Food food = new Food();
-                food.setFoodname(drink.getDrinkname());
-                food.setPrice(drink.getPrice());
-                food.setImageurl(drink.getImageurl());
-                list.add(food);
+                Menu menu = new Menu();
+                menu.setName(drink.getDrinkname());
+                menu.setComponent(drink.getDrinkname());
+                menu.setImageurl(drink.getImageurl());
+                menu.setPrice(drink.getPrice());
+                menulist.add(menu);
             }
 
         }
 
-        return list;
+        return menulist;
 
     }
 

@@ -3,8 +3,8 @@ package com.example.demo.DB.DTO;
 public class Coupon {
     private String couponID;
     private String name;
-    private String salesRate;
-    private String expirationDate;
+    private int salesRate;
+    private int price;
 
     public String getCouponID() {
         return couponID;
@@ -22,19 +22,20 @@ public class Coupon {
         this.name = name;
     }
 
-    public String getSalesRate() {
+    public int getSalesRate() {
         return salesRate;
     }
 
-    public void setSalesRate(String salesRate) {
+    public void setSalesRate(int salesRate) {
         this.salesRate = salesRate;
     }
 
-    public String getExpirationDate() {
-        return expirationDate;
+
+    public int getPrice() {
+        return price;
     }
 
-    public void setExpirationDate(String expirationDate) {
-        this.expirationDate = expirationDate;
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
