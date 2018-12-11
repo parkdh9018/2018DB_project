@@ -60,7 +60,7 @@
                         <tbody>
                         </tbody>
                     </table>
-                    <h3 id="total">총 금액 : 0</h3>
+                    <h3 id="total">총 금액 : <div id="totalprice"></div></h3>
                     <p>
                         <input type="submit" class="btn btn-success btn-small" value="카드결제" onclick="location.href='payment'">
                         <input type="submit" class="btn btn-success btn-small" value="현금결제" onclick="location.href='payment'">
@@ -101,6 +101,7 @@
 <script type="text/javascript">
 
     $('.col-sm-4').css('font-size','13px');
+    $('#totalprice').html(0);
 
     $(document).ready(function(){
         addmenu("한식");
@@ -109,12 +110,12 @@
             $(this).addClass("active");
             addmenu($(this).children().html());
         });
-        //
 
     });
 
     $(document).on('click','#cancelbtn',function () {
         $(this).parent().parent().remove();
+        totalprice();
     });
 
     function addmenu(category) {
@@ -175,23 +176,21 @@
             $('.table tbody').append($record);
         }
 
+        totalprice();
+        
+    }
+    function resetOrder() {
+        $('.table tbody').children().remove();
+        $('#totalprice').html(0);
+
+    }
+    function totalprice() {
         var totalprice = 0;
         $('.table tbody tr').each(function () {
             totalprice += $(this).children('th:eq(1)').html() * $(this).children('th:eq(2)').html();
         });
-
         //alert(totalprice);
-        $('#total').html('총 금액 : '+totalprice);
-        
-    }
-    function resetOrder() {
-        $('.table').children().remove();
-        $('.table').append('<tr>\n' +
-            '<th>음식이름</th>\n' +
-            '<th>가격</th>\n' +
-            '<th>개수</th>\n' +
-            '<th></th>\n' +
-            '</tr>');
+        $('#totalprice').html(totalprice);
     }
 
 

@@ -1,10 +1,7 @@
 package com.example.demo.DB.DAO;
 
 import com.example.demo.DB.DBconnect;
-import com.example.demo.DB.DTO.Allergy;
-import com.example.demo.DB.DTO.Drink;
-import com.example.demo.DB.DTO.Food;
-import com.example.demo.DB.DTO.Setmenu;
+import com.example.demo.DB.DTO.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -193,6 +190,7 @@ public class MenuDAO {
                     setmenu.setSetmenuid(rs.getString("setmenuid"));
                     setmenu.setCategory(rs.getString("category"));
                     setmenu.setTotalprice(rs.getInt("totalprice"));
+                    setmenu.setImageurl(rs.getString("setimage"));
 
                     sql = "SELECT * FROM SUBITEM WHERE SETMENUID  = RPAD(?,50) AND TYPE = 'food'";
                     pstmt2 = con.prepareStatement(sql);
@@ -230,7 +228,41 @@ public class MenuDAO {
         return list;
 
     }
+    public Coupon getCoupon(String couponId){
+        Coupon coupon = new Coupon();
+        dBconnect = new DBconnect();
+        con = dBconnect.getConnection();
+        try{
+            sql = "(SELECT FOODNAME as name,EXPIRATIONDATE,SALERATE  FROM SALESITEM WHERE COUPONID=? AND TYPE='food'\n" +
+                    "                AND USED='0' AND EXPIRATIONDATE >= TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'))\n" +
+                    "UNION\n" +
+                    "(SELECT SETMENUID as name,EXPIRATIONDATE,SALERATE  FROM SALESITEM WHERE COUPONID=? AND TYPE='set'\n" +
+                    "                AND USED='0'AND EXPIRATIONDATE >= TO_DATE (SYSDATE, 'YYYY-MM-DD HH24:MI:SS'))\n" +
+                    "UNION\n" +
+                    "(SELECT DRINKNAME as name,EXPIRATIONDATE,SALERATE  FROM SALESITEM WHERE COUPONID=? AND TYPE='drink'\n" +
+                    "                AND USED='0'AND EXPIRATIONDATE >= TO_DATE (SYSDATE, 'YYYY-MM-DD HH24:MI:SS'))";
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1,couponId);
+            pstmt.setString(2,couponId);
+            pstmt.setString(3,couponId);
 
+            rs = pstmt.executeQuery();
+
+            if(!rs.isBeforeFirst())
+               coupon.setName("x");
+            else {
+                coupon.setName(rs.getString("name"));
+                coupon.setSalesRate(rs.getString("SALERATE"));
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            DBconnect.close(con, pstmt,rs);
+        }
+
+        return coupon;
+    }
 
 
 }

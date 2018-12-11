@@ -2,10 +2,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.DB.DAO.MenuDAO;
 import com.example.demo.DB.DBconnect;
-import com.example.demo.DB.DTO.Allergy;
-import com.example.demo.DB.DTO.Drink;
-import com.example.demo.DB.DTO.Food;
-import com.example.demo.DB.DTO.Setmenu;
+import com.example.demo.DB.DTO.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,6 +61,7 @@ public class HomeController {
                 Food food = new Food();
                 food.setFoodname(setmenu.toStringCompoenet());
                 food.setPrice(setmenu.getTotalprice());
+                food.setImageurl(setmenu.getImageurl());
                 list.add(food);
             }
         }else{
@@ -89,9 +87,20 @@ public class HomeController {
         List<Allergy> list = new ArrayList<Allergy>();
 
         list.addAll(menuDAO.getAllergyList());
-        //System.out.println("list size : "+list.size());
+        //.System.out.println("list size : "+list.size());
 
         return list;
+    }
+
+    @ResponseBody
+    @PostMapping("/getCoupon")
+    public Coupon getCoupon(@RequestBody String data){
+        MenuDAO menuDAO = new MenuDAO();
+        Coupon coupon = new Coupon();
+
+        coupon = menuDAO.getCoupon(data);
+
+        return coupon;
     }
 
 
