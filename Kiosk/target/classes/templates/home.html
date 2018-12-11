@@ -47,18 +47,24 @@
 
             <div class="col-sm-4">
                 <div class="jumbotron">
-                    <h2>주문 상황</h2>
+                    <h3>주문 상황</h3>
                     <table class="table">
+                        <thead>
                         <tr>
                             <th>음식이름</th>
                             <th>가격</th>
                             <th>개수</th>
+                            <th></th>
                         </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
                     </table>
+                    <h3 id="total">총 금액 : 0</h3>
                     <form action="payment">
                     <p>
-                       <input type="submit" class="btn btn-success btn-lg" value="결제" onclick="location.href='payment'">
-                       <button type="reset" class="btn btn-success btn-lg" onclick="javascript:resetOrder()">주문 초기화</button>
+                       <input type="submit" class="btn btn-success btn-small" value="결제" onclick="location.href='payment'">
+                       <button type="reset" class="btn btn-success btn-small" onclick="javascript:resetOrder()">주문 초기화</button>
                     </p>
                     </form>
                 </div>
@@ -71,6 +77,8 @@
 </body>
 <script type="text/javascript">
 
+    $('.col-sm-4').css('font-size','13px');
+
     $(document).ready(function(){
         addmenu("한식");
         $('.nav-pills li').click(function () {
@@ -78,6 +86,12 @@
             $(this).addClass("active");
             addmenu($(this).children().html());
         });
+        //
+
+    });
+
+    $(document).on('click','#cancelbtn',function () {
+        $(this).parent().parent().remove();
     });
 
     function addmenu(category) {
@@ -117,25 +131,34 @@
             '<th></th>\n' +
             '<th></th>\n' +
             '<th></th>\n' +
+            '<th><button type="button" id="cancelbtn" class="btn btn-info btn-small">취소</button></th>\n' +
             '</tr>');
 
+        $record.children('th:eq(3)').children().css('font-size','smaller');
 
-        if($(".table tr th").filter(function() {
+        if($(".table tbody tr th").filter(function() {
             return $(this).text() === name;
         }).next().next().html() != undefined){
-            var count = $(".table tr th").filter(function() {
+            var count = $(".table tbody tr th").filter(function() {
                 return $(this).text() === name;
             }).next().next().html();
-            $(".table tr th").filter(function() {
+            $(".table tbody tr th").filter(function() {
                 return $(this).text() === name;
             }).next().next().html(++count);
         }else{
             $record.children('th:eq(0)').html(name);
             $record.children('th:eq(1)').html(price);
             $record.children('th:eq(2)').html(1);
-            $('.table').children().append($record);
+            $('.table tbody').append($record);
         }
 
+        var totalprice = 0;
+        $('.table tbody tr').each(function () {
+            totalprice += $(this).children('th:eq(1)').html() * $(this).children('th:eq(2)').html();
+        });
+
+        //alert(totalprice);
+        $('#total').html('총 금액 : '+totalprice);
         
     }
     function resetOrder() {
@@ -144,6 +167,7 @@
             '<th>음식이름</th>\n' +
             '<th>가격</th>\n' +
             '<th>개수</th>\n' +
+            '<th></th>\n' +
             '</tr>');
     }
 
