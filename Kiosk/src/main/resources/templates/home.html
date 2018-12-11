@@ -9,7 +9,6 @@
     <link rel="stylesheet"href="css/homepage.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 </head>
 <body>
 <nav id="myNavbar" class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
@@ -43,6 +42,7 @@
             </ul>
             <div class="col-sm-8">
 
+
             </div>
 
             <div class="col-sm-4">
@@ -61,12 +61,35 @@
                         </tbody>
                     </table>
                     <h3 id="total">총 금액 : 0</h3>
-                    <form action="payment">
                     <p>
-                       <input type="submit" class="btn btn-success btn-small" value="결제" onclick="location.href='payment'">
-                       <button type="reset" class="btn btn-success btn-small" onclick="javascript:resetOrder()">주문 초기화</button>
+                        <input type="submit" class="btn btn-success btn-small" value="카드결제" onclick="location.href='payment'">
+                        <input type="submit" class="btn btn-success btn-small" value="현금결제" onclick="location.href='payment'">
                     </p>
-                    </form>
+                    <p>
+                        <!--<input type="submit" class="btn btn-success btn-small" value="쿠폰입력" onclick="location.href='coupon'">-->
+                        <a href="#myModal" role="button" class="btn btn-success btn-small" data-toggle="modal">쿠폰입력</a>
+                        <input type="reset" class="btn btn-success btn-small" value="주문 초기화" onclick="javascript:resetOrder()">
+                    </p>
+                    <!-- 쿠폰입력 modal -->
+                    <div id="myModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">쿠폰확인</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>쿠폰 코드를 입력해주세요.</p>
+                                    <input type="text" class="code" size="50">
+                                    <!--<p class="text-warning"><small>If you don't save, your changes will be lost.</small></p>-->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary">확인</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
