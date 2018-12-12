@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> 주문 결제하기 </title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/homepage.css">
+    <link rel="stylesheet" href="css/receipt.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -15,12 +15,11 @@
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">FOOD COURT</a>
+            <a class="navbar-brand" href="home">FOOD COURT</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="nav navbar-nav">
-                <li><a href="home">Home</a></li>
                 <li><a href="evaluation">음식 평가</a></li>
                 <li><a href="#none" onclick="alert('잠시만 기다려주세요')">직원 호출</a></li>
                 <li><a href="support">알러지 정보</a></li>
@@ -29,23 +28,177 @@
         </div>
     </div>
 </nav>
-<div class="jumbotron">
     <div id="receipt">
-        <form action="/home">
-            <h2>주문 번호: </h2>
-            <br>
-            <h3>[판매영수증] 서울시 강남구점</h3>
-            <h3>매니저 : 매니저명 02-9184-9283</h3>
-            <h3>결제수단 : 카드</h3>
-            <h3>주문목록</h3>
-            <h3>합계금액 : </h3>
-            <h3>광고 : </h3>
-            <p>
-                <input type="submit" class="btn btn-success btn-small" value="결제 완료" onclick="alert('처리 완료')">
-                <input type="reset" class="btn btn-success btn-small" value="취소" onclick="javascript:history.back()">
-            </p>
-        </form>
+        <div id="Layout">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tblTop">
+                <tr>
+                    <td>영 수 증</td>
+                </tr>
+            </table>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tblTop2">
+                <tr>
+                    <td width="45%" class="noTd">주문번호. <span class="noStxt">20091201</span></td>
+                    <td class="name"></td>
+                    <td width="10%"></td>
+                </tr>
+            </table>
+            <table width="100%" cellpadding="0" cellspacing="0" class="tbl stamp">
+                <tr>
+                    <td width="7%" rowspan="5" align="center" class="titTd">공<br>
+                        급<br>
+                        자</td>
+                    <th width="20%">사업자<br>
+                        등록번호</th>
+                    <td colspan="3" class="txt1">777-77-12345</td>
+                </tr>
+                <tr>
+                    <th>상호</th>
+                    <td width="25%" align="center">FOOD COURT</td>
+                    <th width="14%">성명</th>
+                    <td id="spname" align="center">홍길동</td>
+                </tr>
+                <tr>
+                    <th>사업자<br>
+                        소재지</th>
+                    <td id="spAddress" colspan="3"></td>
+                </tr>
+                <tr>
+                    <th>업태</th>
+                    <td align="center">음식점업</td>
+                    <th>종목</th>
+                    <td align="center">음식</td>
+                </tr>
+                <tr>
+                    <th>전화</th>
+                    <td id="spPhone" colspan="3"></td>
+                </tr>
+            </table>
+            <table width="100%" cellspacing="0" cellpadding="0" class="tbl">
+                <tr>
+                    <th>작성년월일</th>
+                    <th>공급대가총액</th>
+                    <th>비고</th>
+                </tr>
+                <tr>
+                    <td class="date">2012년 2월 22일</td>
+                    <td class="total"></td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+            <div class="basicDiv">
+                위 금액을 정히 영수(청구) 함.
+            </div>
+            <table width="100%" cellspacing="0" cellpadding="0" class="tbl" id="itemlist">
+                <tr>
+                    <th>품목</th>
+                    <th>수량</th>
+                    <th>공급대가(금액)</th>
+                </tr>
+            </table>
+
+
+            </div>
+
+
+        </div>
     </div>
-</div>
+<br><br>
+<button type="button" class="btn btn-primary" onclick="location.href = 'home'">확인</button>
 </body>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        var today = new Date();
+        var todayString = today.getFullYear()+"년 "+(today.getMonth()+1)+"월 "+today.getDate()+"일";
+
+        $('.date').html(todayString);
+
+        $.ajax({
+            url: "/getStoreinfo",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            success : function (data){
+                $('.tx1').text( data.crn);
+                $('#spname').text(data.manager);
+                $('#spAddress').text(data.address);
+                $('#spPhone').text(data.phone);
+            },
+            fail : function (){
+                alert("fail");
+            }
+        });
+
+        var url_string = window.location.href;
+
+        url_string = decodeURI(url_string);
+
+        var splitdata = url_string.split("=")[1].split(/_+/);
+        var methodData = url_string.split("=")[2].split(/_+/);
+
+
+        var count = [];
+        var name = [];
+        var price = [];
+        var cnt = 0;
+
+        for(var i=4;i<splitdata.length+1;i+=4){
+                price[cnt] = splitdata[i-3]; //price
+                name[cnt] = splitdata[i - 4]; //name
+                count[cnt++] = splitdata[i-2]; //count
+        }
+
+        $('.total').text(splitdata[splitdata.length-2]);    //총 가격
+        $('.noStxt').text(splitdata[splitdata.length-1]);   //주문번호
+
+        for(var i=0;i<cnt;i++) {
+
+            $record = $('<tr>\n' +
+                '<td class="item"></td>\n' +
+                '<td class="article"></td>\n' +
+                '<td class="price"></td>\n' +
+                '</tr>');
+
+            $record.children('.item').append(name[i]);
+            $record.children('.article').append(count[i]);
+            $record.children('.price').append(price[i]);
+            $('#itemlist').append($record);
+        }
+
+        if(methodData[0] == 'card'){
+
+            $tmpinfo = $('<div class="basicDiv" id="info">신 용 카 드 매 출 내 역<br>\n' +
+                '                <div id="cardinfo">\n' +
+                '               <div id="bank"></div>\n' +
+                '               <div id="cardid"></div>\n' +
+                '               <div id="account"></div>\n' +
+                '                </div></div>            <div class="basicDiv">\n' +
+                '                부가가치 세법시행규칙 제25조의 규정에 의하여 위 금액을 정히 영수함.</div>');
+
+            $tmpinfo.children().children('#bank').text(" 은행명  :  "+methodData[2]);
+            $tmpinfo.children().children('#cardid').text(" 카드번호  :  "+methodData[1]);
+            $tmpinfo.children().children('#account').text(" 이름  :  "+methodData[3]);
+
+
+        }
+        else if(methodData[0] == 'cash')
+        {
+
+            $tmpinfo = $('<div class="basicDiv" id="info">현 금 영 수 증 ( 소 득 공 제 )<br>\n' +
+                '                <div id="cardinfo">\n' +
+                '                <div id="totalprice"></div>\n' +
+                '                <div id="cash"></div>\n' +
+                '                <div id="remain"></div>\n' +
+                '                </div></div>            <div class="basicDiv">\n' +
+                '                부가가치 세법시행규칙 제25조의 규정에 의하여 위 금액을 정히 영수함.</div>');
+
+            $tmpinfo.children().children('#totalprice').text("합계금액  :  "+splitdata[splitdata.length-2]);
+            $tmpinfo.children().children('#cash').text("받은금액  :  "+methodData[1]);
+            $tmpinfo.children().children('#remain').text("거스름돈  :  "+(methodData[1] - splitdata[splitdata.length-2]));
+
+        }
+            $('#receipt').children().append($tmpinfo);
+
+    });
+</script>
 </html>

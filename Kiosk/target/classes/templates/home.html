@@ -15,16 +15,15 @@
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">FOOD COURT</a>
+            <a class="navbar-brand active" href="home">FOOD COURT</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="home">Home</a></li>
                 <li><a href="evaluation">음식 평가</a></li>
                 <li><a href="#none" onclick="alert('잠시만 기다려주세요')">직원 호출</a></li>
                 <li><a href="support">알러지 정보</a></li>
-                <li><a href="login" onclick="window.open(this.href, '_blank', 'width=500px,height=200px,toolbars=no,scrollbars=no'); return false;">관리자 모드</a></li>
+                <li><a href="login" onclick="window.open(this.href, '_blank', 'width=1000px,height=500px,toolbars=no,scrollbars=no'); return false;">관리자 모드</a></li>
             </ul>
         </div>
     </div>
@@ -33,7 +32,7 @@
 <div class="bs-example">
     <div class="container">
         <div class="row">
-            <ul class="nav nav-pills">
+            <ul class="nav nav-pills" id="menubar">
                 <li class="active"><a href="#">한식</a></li>
                 <li><a href="#">중식</a></li>
                 <li><a href="#">일식</a></li>
@@ -46,12 +45,12 @@
             </div>
 
             <div class="col-sm-4">
-                <div class="jumbotron">
                     <h3>주문 상황</h3>
                     <table class="table">
                         <thead>
                         <tr>
                             <th>음식이름</th>
+                            <th></th>
                             <th>가격</th>
                             <th>개수</th>
                             <th></th>
@@ -60,33 +59,113 @@
                         <tbody>
                         </tbody>
                     </table>
-                    <h3 id="total">총 금액 : 0</h3>
+                    <br>
+                    <h4 id="total">총 금액 : <div id="totalprice"></div>원</h4>
                     <p>
-                        <input type="submit" class="btn btn-success btn-small" value="카드결제" onclick="location.href='payment'">
-                        <input type="submit" class="btn btn-success btn-small" value="현금결제" onclick="location.href='payment'">
+                        <a href="#CardModal" role="button" class="btn btn-success btn-small" data-toggle="modal">카드결제</a>
+                        <a href="#CashModal" role="button" class="btn btn-success btn-small" data-toggle="modal">현금결제</a>
                     </p>
                     <p>
                         <!--<input type="submit" class="btn btn-success btn-small" value="쿠폰입력" onclick="location.href='coupon'">-->
-                        <a href="#myModal" role="button" class="btn btn-success btn-small" data-toggle="modal">쿠폰입력</a>
+                        <a href="#CouponModal" role="button" class="btn btn-success btn-small" data-toggle="modal">쿠폰입력</a>
                         <input type="reset" class="btn btn-success btn-small" value="주문 초기화" onclick="javascript:resetOrder()">
                     </p>
                     <!-- 쿠폰입력 modal -->
-                    <div id="myModal" class="modal fade">
+                    <div id="CouponModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                     <h4 class="modal-title">쿠폰확인</h4>
                                 </div>
-                                <div class="modal-body">
-                                    <p>쿠폰 코드를 입력해주세요.</p>
-                                    <input type="text" class="code" size="50">
-                                    <!--<p class="text-warning"><small>If you don't save, your changes will be lost.</small></p>-->
-                                </div>
+                                <br>
+                                <form>
+                                    <div class="row">
+                                        <div id="coupon-code" class="col-xs-5">
+                                            <p>쿠폰 코드를 입력해주세요.</p>
+                                            <div class="input-group">
+                                                <input type="text" id="couponid" class="form-control" placeholder="쿠폰 코드&hellip;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <br>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary">확인</button>
+                                    <button type="button" class="btn btn-primary" onclick="javascript:couponCheck()">확인</button>
                                     <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                <!-- 카드입력 modal -->
+                    <div id="CardModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">카드확인</h4>
+                                </div>
+                                <br>
+                                <form>
+                                    <div class="row">
+                                        <div id="card" class="col-xs-5">
+                                            <p>카드번호를 입력해주세요.</p>
+                                            <div class="input-group">
+                                                <input type="text" id="cardvalue" class="form-control" placeholder="카드번호&hellip;">
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div id="bank" class="col-xs-5">
+                                            <p>은행을 선택해주세요.</p>
+                                            <div class="input-group">
+                                                <input type="text" id="bankvalue" class="form-control" placeholder="은행&hellip;">
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div id="person" class="col-xs-5">
+                                            <p>예금주를 입력해주세요.</p>
+                                            <div class="input-group">
+                                                <input type="text" id="personvalue" class="form-control" placeholder="예금주&hellip;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <br>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" onclick="javascript:toPayemnt('card')" >확인</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <!-- 현금 modal -->
+                <div id="CashModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">금액</h4>
+                            </div>
+                            <br>
+                            <form>
+                                <div class="row">
+                                    <div id="cash" class="col-xs-5">
+                                        <p>금액을 입력하세요</p>
+                                        <div class="input-group">
+                                            <input type="text" id="cashvalue" class="form-control" placeholder="금액&hellip;">
+                                        </div>
+                                    </div>
+                                </div><br>
+                            </form>
+                            <br>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="javascript:toPayemnt('cash')" >확인</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
                             </div>
                         </div>
                     </div>
@@ -101,6 +180,7 @@
 <script type="text/javascript">
 
     $('.col-sm-4').css('font-size','13px');
+    $('#totalprice').html(0);
 
     $(document).ready(function(){
         addmenu("한식");
@@ -109,12 +189,12 @@
             $(this).addClass("active");
             addmenu($(this).children().html());
         });
-        //
 
     });
 
     $(document).on('click','#cancelbtn',function () {
         $(this).parent().parent().remove();
+        totalprice();
     });
 
     function addmenu(category) {
@@ -127,19 +207,21 @@
             success : function (data){
                 $('.col-xs-3').remove();
                 for(var i=0;i<data.length;i++) {
-                    var foodname = $.trim(data[i].foodname);
+                    var name = $.trim(data[i].name);
+                    var component = $.trim(data[i].component);
                     var price = $.trim(data[i].price);
                     var imageurl = $.trim(data[i].imageurl);
+                    var type = $.trim(data[i].type);
 
                     $menuButton = $('<div class="col-xs-3">\n' +
-                        '                <a href="javascript:addOrder(\''+ foodname+'\','+price+')" class="thumbnail">\n' +
-                        '                    <img src="img/중식세트1.jpg" alt="125x125">\n' +
+                        '                <a href="javascript:addOrder(\''+ name+'\','+price+',0,\''+type+'\')" class="thumbnail">\n' +
+                        '                    <img src="img/125x125.jpg" alt="125x125">\n' +
                         '                    <div class="name"></div><div class="price"></div>' +
                         '                </a>\n' +
                         '            </div>');
 
                     $menuButton.children().children('img').attr('src',imageurl);
-                    $menuButton.children().children('.name').html(foodname+'<br>');
+                    $menuButton.children().children('.name').html(component+'<br>');
                     $menuButton.children().children('.price').html(price);
                     $(".col-sm-8").append($menuButton);
                 }
@@ -149,49 +231,143 @@
             }
         });
     }
-    function addOrder(name, price){
+    function addOrder(name, price, salerate, type){
         $record = $('<tr>\n' +
             '<th></th>\n' +
             '<th></th>\n' +
             '<th></th>\n' +
+            '<th></th>\n'+
             '<th><button type="button" id="cancelbtn" class="btn btn-info btn-small">취소</button></th>\n' +
+            '<th></th>\n'+
             '</tr>');
 
         $record.children('th:eq(3)').children().css('font-size','smaller');
 
-        if($(".table tbody tr th").filter(function() {
-            return $(this).text() === name;
-        }).next().next().html() != undefined){
-            var count = $(".table tbody tr th").filter(function() {
+
+        if(salerate == 0){
+            if($(".table tbody tr th").filter(function() {
                 return $(this).text() === name;
-            }).next().next().html();
-            $(".table tbody tr th").filter(function() {
+            }).next().next().next().html() != undefined){
+                var count = $(".table tbody tr th").filter(function() {
+                    return $(this).text() === name;
+                }).next().next().next().html();
+                $(".table tbody tr th").filter(function() {
+                    return $(this).text() === name;
+                }).next().next().next().html(++count);
+            }else{
+                $record.children('th:eq(0)').html(name);
+                $record.children('th:eq(2)').html(price);
+                $record.children('th:eq(3)').html(1);
+                $record.children('th:eq(5)').html(type).hide();
+                $('.table tbody').append($record);
+            }
+        }else {
+
+            name += '(쿠폰)';
+
+            if ($(".table tbody tr th").filter(function () {
                 return $(this).text() === name;
-            }).next().next().html(++count);
-        }else{
-            $record.children('th:eq(0)').html(name);
-            $record.children('th:eq(1)').html(price);
-            $record.children('th:eq(2)').html(1);
-            $('.table tbody').append($record);
+            }).next().next().next().html() != undefined) {
+                var count = $(".table tbody tr th").filter(function () {
+                    return $(this).text() === name;
+                }).next().next().next().html();
+                $(".table tbody tr th").filter(function () {
+                    return $(this).text() === name;
+                }).next().next().next().html(++count);
+            } else {
+                $record.children('th:eq(0)').html(name);
+                $saleprice = $('<div id="originPrice">' + price + '</div>');
+                $saleprice.css('text-decoration', 'line-through');
+                $record.children('th:eq(1)').append('-', salerate, "%", '&nbsp;', '&nbsp;', '&nbsp;', $saleprice, '&nbsp;', '&nbsp;', '&nbsp;', '&nbsp;', '&nbsp;', "→");
+                $record.children('th:eq(2)').text(price * (100 - salerate) / 100);
+                $record.children('th:eq(3)').html(1);
+                $record.children('th:eq(5)').html(type).hide();
+                $('.table tbody').append($record);
+            }
         }
 
-        var totalprice = 0;
-        $('.table tbody tr').each(function () {
-            totalprice += $(this).children('th:eq(1)').html() * $(this).children('th:eq(2)').html();
-        });
-
-        //alert(totalprice);
-        $('#total').html('총 금액 : '+totalprice);
+        totalprice();
         
     }
+    function couponCheck() {
+        $('#CouponModal').modal('hide');
+        var couponid = $('#couponid').val();
+        $.ajax({
+            url: "/getCoupon",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: couponid,
+            success : function (data){
+                var name = $.trim(data.name);
+                var price = $.trim(data.price);
+                var salerate = $.trim(data.salesRate);
+                var type = $.trim(data.type);
+
+                if(price == 0)
+                    alert("잘못된 코드이거나 유효기간이 지난 쿠폰입니다.");
+                else
+                    addOrder(name,price,salerate,type);
+            },
+            fail : function (){
+                alert("fail");
+            }
+        });
+
+
+    }
     function resetOrder() {
-        $('.table').children().remove();
-        $('.table').append('<tr>\n' +
-            '<th>음식이름</th>\n' +
-            '<th>가격</th>\n' +
-            '<th>개수</th>\n' +
-            '<th></th>\n' +
-            '</tr>');
+        $('.table tbody').children().remove();
+        $('#totalprice').html(0);
+
+    }
+    function totalprice() {
+        var totalprice = 0;
+        $('.table tbody tr').each(function () {
+            totalprice += $(this).children('th:eq(2)').html() * $(this).children('th:eq(3)').html();
+        });
+        //alert(totalprice);
+        $('#totalprice').html(totalprice);
+    }
+    function toPayemnt(method) {
+
+        var senddata = [];
+
+        $('.table tbody tr th').each(function (index) {
+            if((index-1)%6 != 0 && (index-4)%6 != 0)
+                senddata += $(this).text() + '_';
+        });
+        senddata += $('#totalprice').text();
+
+        $.ajax({
+            url: "/insertOrder",
+            type: "POST",
+            contentType: "application/json",
+            data: senddata,
+            success : function (getdata){
+                if(method == 'card') {
+                    var s = 'payment?=' + senddata + "_" + getdata
+                        + '=card' + '_' + $('#cardvalue').val() + '_' + $('#bankvalue').val() + '_' + $('#personvalue').val();
+                    location.href = encodeURI(s, 'UTF-8');
+                }else if(method == 'cash') {
+                    if(!$.isNumeric($('#cashvalue').val()))
+                        alert('정확한 금액을 입력해 주세요');
+                    else {
+                        if ($('#cashvalue').val() < 0 || $('#cashvalue').val() < $('#totalprice').text())
+                            alert('정확한 금액을 입력해 주세요');
+                        else {
+                            var s = 'payment?=' + senddata + "_" + getdata
+                                + '=cash' + '_' + $('#cashvalue').val();
+                            location.href = encodeURI(s, 'UTF-8');
+                        }
+                    }
+                }
+            },
+            fail : function (){
+                alert("fail");
+            }
+        });
+
     }
 
 

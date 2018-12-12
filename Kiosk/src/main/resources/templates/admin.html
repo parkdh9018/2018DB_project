@@ -1,123 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Bootstrap Example</title>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> Food Kiosk</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet"href="css/adminpage.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+
 <div class="container">
-    <div class="row">
-        <div class="col-xs-12 ">
-            <nav>
-                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
-        <a class="nav-item nav-link" id="nav-order-tab" data-toggle="tab" href="#nav-order" role="tab" aria-controls="nav-order" aria-selected="false">Profile</a>
-        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Contact</a>
-    </div>
-</nav>
-<div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-    <div class="bs-example">
-    <div class="container">
-        <div class="row">
-            <ul class="nav nav-pills">
-                <li class="active"><a href="#">한식</a></li>
-                <li><a href="#">중식</a></li>
-                <li><a href="#">일식</a></li>
-                <li><a href="#">양식</a></li>
-                <li><a href="#">음료</a></li>
-            </ul>
-            <br>
-            <div class="col-sm-8">
-                <input type="radio" name="fruit" value="사과" /> 사과
-                <p></p>
-                <input type="radio" name="fruit" value="바나나" checked="checked" /> 바나나
-            </div>
+    <h2>관리자 모드</h2>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+        <li><a data-toggle="tab" href="#OrderHistoy">Order History</a></li>
+        <li><a data-toggle="tab" href="#EmployeeInfo">Employee Info</a></li>
+    </ul>
 
-            <div class="col-sm-4">
-                <div class="jumbotron">
-                        <div class="input-group">
-                            <input type="text" class="form-control">
-                            <div class="input-group-btn">
-                                <button tabindex="-1" class="btn btn-default" type="button">Search</button>
-                                <button tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu pull-right">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">Separated link</a></li>
-                                </ul>
-                            </div>
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <div class="bs-example">
+                <div class="container">
+                    <div class="row">
+                        <ul class="nav nav-pills">
+                            <li class="active"><a href="#">한식</a></li>
+                            <li><a href="#">중식</a></li>
+                            <li><a href="#">일식</a></li>
+                            <li><a href="#">양식</a></li>
+                            <li><a href="#">음료</a></li>
+                        </ul>
+                        <br>
+                        <div class="col-sm-8">
+                            <input type="radio" name="fruit" value="사과" /> 사과
+                            <p></p>
+                            <input type="radio" name="fruit" value="바나나" checked="checked" /> 바나나
                         </div>
+
+                        <div class="col-sm-4">
+                            <div class="jumbotron">
+                                <div class="input-group">
+                                    <input type="text" class="form-control">
+                                    <div class="input-group-btn">
+                                        <button tabindex="-1" class="btn btn-default" type="button">Search</button>
+                                        <button tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                                            <span class="caret"></span>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right">
+                                            <li><a href="#">Action</a></li>
+                                            <li><a href="#">Another action</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#">Separated link</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>음식 이름</label>
+                                <br>
+                                <input type="text" id="Foodname" class="form-control" placeholder="Foodname">
+                            </div>
+                            <div class="form-group">
+                                <label>가격</label>
+                                <br>
+                                <input type="text" id="Foodprice" class="form-control" placeholder="Foodprice">
+                            </div>
+                            <form action="payment">
+                                <p>
+                                    <button type="reset" class="btn btn-success btn-lg">메뉴 삭제</button>
+                                    <button type="reset" class="btn btn-success btn-lg">가격 변경</button>
+                                    <button type="reset" class="btn btn-success btn-lg">메뉴 추가</button>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>음식 이름</label>
-                    <br>
-                    <input type="text" id="Foodname" class="form-control" placeholder="Foodname">
-                </div>
-                <div class="form-group">
-                    <label>가격</label>
-                    <br>
-                    <input type="text" id="Foodprice" class="form-control" placeholder="Foodprice">
-                </div>
-                    <form action="payment">
-                        <p>
-                            <button type="reset" class="btn btn-success btn-lg">메뉴 삭제</button>
-                            <button type="reset" class="btn btn-success btn-lg">가격 변경</button>
-                            <button type="reset" class="btn btn-success btn-lg">메뉴 추가</button>
-                        </p>
-                    </form>
                 </div>
             </div>
-
+        <div id="OrderHistoy" class="tab-pane fade">
+            <h3>Order History</h3>
         </div>
-    </div>
-</div>
-</div>
-    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent1">
-        <div class="tab-pane fade show active" id="nav-order" role="tabpanel" aria-labelledby="nav-order-tab">
-
-        <form><!-- form method,action 설정 필요 -->
-            <p>
-                <!-- 음식 목록 표시 -->
-            </p>
-            <h2>총 금액: </h2><!-- 총 금액 표시 -->
-            <br/>
-            <h3> 결제를 완료해 주세요 </h3>
-            <br/>
-            <p>
-                <input type="submit" value="결제 완료" class="btn btn-success btn-lg" onclick="alert('처리 완료')"></input>
-                <button type="reset" class="btn btn-success btn-lg">취소</button>
-            </p>
-        </form>
-</div>
-    </div>
-    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent2">
-        <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            <form><!-- form method,action 설정 필요 -->
-                <p>
-                    <!-- 음식 목록 표시 -->
-                </p>
-                <h2>총 금액: </h2><!-- 총 금액 표시 -->
-                <br/>
-                <h3> 결제를 완료해 주세요 </h3>
-                <br/>
-                <p>
-                    <input type="submit" value="결제 완료" class="btn btn-success btn-lg" onclick="alert('처리 완료')"></input>
-                    <button type="reset" class="btn btn-success btn-lg">취소</button>
-                </p>
-            </form>
+        <div id="EmployeeInfo" class="tab-pane fade">
+            <h3>Employee Info</h3>
+            <table border="1">
+                <th>담당</th>
+                <th>이름</th>
+                <th>사원 번호</th>
+                <tr><!-- 첫번째 줄 시작 -->
+                    <td>첫번째 칸</td>
+                    <td>두번째 칸</td>
+                    <td>세번째 칸</td>
+                </tr><!-- 첫번째 줄 끝 -->
+                <tr><!-- 두번째 줄 시작 -->
+                    <td>첫번째 칸</td>
+                    <td>두번째 칸</td>
+                    <td>세번째 칸</td>
+                </tr><!-- 두번째 줄 끝 -->
+                <tr><!-- 두번째 줄 시작 -->
+                    <td>첫번째 칸</td>
+                    <td>두번째 칸</td>
+                    <td>세번째 칸</td>
+                </tr><!-- 두번째 줄 끝 -->
+            </table>
         </div>
-</div>
     </div>
 </div>
 </div>
