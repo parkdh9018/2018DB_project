@@ -43,9 +43,43 @@
     <div class="container">
         <form><!-- form action 설정 필요 -->
             <legend> 오늘 식사는 어떠셨나요? </legend>
+            <table>
+                <tr>
+                    <th><input type="radio" name="chk_info" value="된장국">된장국&nbsp;&nbsp;</th>
+                    <th><input type="radio" name="chk_info" value="김치찌개">김치찌개&nbsp;&nbsp;</th>
+                    <th><input type="radio" name="chk_info" value="순대국밥">순대국밥&nbsp;&nbsp;</th>
+                    <th><input type="radio" name="chk_info" value="순두부찌개">순두부찌개&nbsp;&nbsp;</th>
+                    <th><input type="radio" name="chk_info" value="짜장면">짜장면&nbsp;&nbsp;</th>
+                </tr>
+                <tr>
+                    <th><input type="radio" name="chk_info" value="짬뽕">짬뽕&nbsp;&nbsp;</th>
+                    <th><input type="radio" name="chk_info" value="해물볶음짬뽕">해물볶음짬뽕&nbsp;&nbsp;</th>
+                    <th><input type="radio" name="chk_info" value="탕수육">탕수육&nbsp;&nbsp;</th>
+                    <th><input type="radio" name="chk_info" value="깐풍기">깐풍기&nbsp;&nbsp;</th>
+                    <th><input type="radio" name="chk_info" value="우동">우동&nbsp;&nbsp;</th>
+                </tr>
+                <tr>
+                    <th><input type="radio" name="chk_info" value="가츠동">가츠동&nbsp;&nbsp;</th>
+                    <th><input type="radio" name="chk_info" value="초밥">초밥&nbsp;&nbsp;</th>
+                    <th><input type="radio" name="chk_info" value="스파게티">스파게티&nbsp;&nbsp;</th>
+                    <th><input type="radio" name="chk_info" value="햄버거">햄버거&nbsp;&nbsp;</th>
+                    <th><input type="radio" name="chk_info" value="피자">피자&nbsp;&nbsp;</th>
+                </tr>
+                <tr>
+                    <th><input type="radio" name="chk_info" value="콜라">콜라&nbsp;&nbsp;</th>
+                    <th><input type="radio" name="chk_info" value="오렌지주스">오렌지주스&nbsp;&nbsp;</th>
+                    <th><input type="radio" name="chk_info" value="맥주">맥주&nbsp;&nbsp;</th>
+                    <th><input type="radio" name="chk_info" value="사이다">사이다&nbsp;&nbsp;</th>
+                </tr>
+            </table>
+            <br>
             <div class="row">
                 <label>점수로 평가해 주세요(1점~5점)</label>
-                <input type="range" name="score" min="1" max="5" value="3" width="20%"/>
+                <input type="range" id="bar" min="1" max="5" value="3"/>
+                <p>1점&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp; &nbsp; 5점
+                </p>
             </div>
             <br/>
             <div class="row">
