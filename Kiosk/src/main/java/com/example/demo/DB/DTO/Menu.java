@@ -5,6 +5,7 @@ public class Menu {
     private String component;
     private int price;
     private String imageurl;
+    private String type;
 
     public String getName() {
         return name;
@@ -36,5 +37,13 @@ public class Menu {
 
     public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

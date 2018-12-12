@@ -24,6 +24,9 @@
     display: inline;
 }
 
+#receipt{
+    text-align: center;
+}
 
 .centered { display: table; margin-left: auto; margin-right: auto; }
 

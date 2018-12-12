@@ -233,17 +233,17 @@ public class MenuDAO {
         dBconnect = new DBconnect();
         con = dBconnect.getConnection();
         try{
-            sql = "(SELECT SALESITEM.FOODNAME as name, SALERATE, FOOD.PRICE AS PRICE\n" +
+            sql = "(SELECT SALESITEM.FOODNAME as name, SALERATE, FOOD.PRICE AS PRICE, TYPE\n" +
                     " FROM SALESITEM, FOOD\n" +
                     " WHERE COUPONID=RPAD(?,50) AND TYPE='food' AND USED='0' AND EXPIRATIONDATE >= TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI:SS')\n" +
                     " AND SALESITEM.FOODNAME = FOOD.FOODNAME )\n" +
                     "UNION\n" +
-                    "(SELECT SALESITEM.SETMENUID as name, SALERATE, SETMENU.TOTALPRICE AS PRICE\n" +
+                    "(SELECT SALESITEM.SETMENUID as name, SALERATE, SETMENU.TOTALPRICE AS PRICE, TYPE\n" +
                     " FROM SALESITEM, SETMENU\n" +
                     " WHERE COUPONID=RPAD(?,50) AND TYPE='set' AND USED='0'AND EXPIRATIONDATE >= TO_DATE (SYSDATE, 'YYYY-MM-DD HH24:MI:SS')\n" +
                     "AND SALESITEM.SETMENUID = SETMENU.SETMENUID)\n" +
                     "UNION\n" +
-                    "(SELECT SALESITEM.DRINKNAME as name, SALERATE, DRINK.PRICE AS PRICE\n" +
+                    "(SELECT SALESITEM.DRINKNAME as name, SALERATE, DRINK.PRICE AS PRICE, TYPE\n" +
                     " FROM SALESITEM, DRINK\n" +
                     " WHERE COUPONID=RPAD(?,50) AND TYPE='drink' AND USED='0'AND EXPIRATIONDATE >= TO_DATE (SYSDATE, 'YYYY-MM-DD HH24:MI:SS')\n" +
                     "AND SALESITEM.DRINKNAME = DRINK.DRINKNAME)";
@@ -260,6 +260,7 @@ public class MenuDAO {
                     coupon.setName(rs.getString("name"));
                     coupon.setSalesRate(rs.getInt("SALERATE"));
                     coupon.setPrice(rs.getInt("price"));
+                    coupon.setType(rs.getString("type"));
                 }while(rs.next());
             }
 

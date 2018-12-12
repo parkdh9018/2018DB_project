@@ -60,10 +60,11 @@
                         <tbody>
                         </tbody>
                     </table>
+                    <br>
                     <h4 id="total">총 금액 : <div id="totalprice"></div>원</h4>
                     <p>
-                        <input type="submit" class="btn btn-success btn-small" value="카드결제" onclick="location.href='payment'">
-                        <input type="submit" class="btn btn-success btn-small" value="현금결제" onclick="location.href='payment'">
+                        <input type="submit" class="btn btn-success btn-small" value="카드결제" onclick="javascript:toPayemnt()">
+                        <input type="submit" class="btn btn-success btn-small" value="현금결제" onclick="javascript:toPayemnt()">
                     </p>
                     <p>
                         <!--<input type="submit" class="btn btn-success btn-small" value="쿠폰입력" onclick="location.href='coupon'">-->
@@ -130,9 +131,10 @@
                     var component = $.trim(data[i].component);
                     var price = $.trim(data[i].price);
                     var imageurl = $.trim(data[i].imageurl);
+                    var type = $.trim(data[i].type);
 
                     $menuButton = $('<div class="col-xs-3">\n' +
-                        '                <a href="javascript:addOrder(\''+ name+'\','+price+',0)" class="thumbnail">\n' +
+                        '                <a href="javascript:addOrder(\''+ name+'\','+price+',0,\''+type+'\')" class="thumbnail">\n' +
                         '                    <img src="img/125x125.jpg" alt="125x125">\n' +
                         '                    <div class="name"></div><div class="price"></div>' +
                         '                </a>\n' +
@@ -149,39 +151,59 @@
             }
         });
     }
-    function addOrder(name, price, salerate){
+    function addOrder(name, price, salerate, type){
         $record = $('<tr>\n' +
             '<th></th>\n' +
             '<th></th>\n' +
             '<th></th>\n' +
             '<th></th>\n'+
             '<th><button type="button" id="cancelbtn" class="btn btn-info btn-small">취소</button></th>\n' +
+            '<th></th>\n'+
             '</tr>');
 
         $record.children('th:eq(3)').children().css('font-size','smaller');
 
-        if($(".table tbody tr th").filter(function() {
-            return $(this).text() === name;
-        }).next().next().next().html() != undefined){
-            var count = $(".table tbody tr th").filter(function() {
+
+        if(salerate == 0){
+            if($(".table tbody tr th").filter(function() {
                 return $(this).text() === name;
-            }).next().next().next().html();
-            $(".table tbody tr th").filter(function() {
-                return $(this).text() === name;
-            }).next().next().next().html(++count);
-        }else{
-            $record.children('th:eq(0)').html(name);
-            if(salerate != 0) {
-                //$record.children('th:eq(1)').html('-' + salerate + "%  "+price.css('text-decoration','line-through')+"->");
-                $saleprice = $('<div id="originPrice">'+price+'</div>');
-                $saleprice.css('text-decoration','line-through');
-                $record.children('th:eq(1)').append('-',salerate,"%",'&nbsp;','&nbsp;','&nbsp;',$saleprice,'&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;',"→");
-                $record.children('th:eq(2)').text(price * (100-salerate)/100);
-            }
-            else
+            }).next().next().next().html() != undefined){
+                var count = $(".table tbody tr th").filter(function() {
+                    return $(this).text() === name;
+                }).next().next().next().html();
+                $(".table tbody tr th").filter(function() {
+                    return $(this).text() === name;
+                }).next().next().next().html(++count);
+            }else{
+                $record.children('th:eq(0)').html(name);
                 $record.children('th:eq(2)').html(price);
-            $record.children('th:eq(3)').html(1);
-            $('.table tbody').append($record);
+                $record.children('th:eq(3)').html(1);
+                $record.children('th:eq(5)').html(type).hide();
+                $('.table tbody').append($record);
+            }
+        }else {
+
+            name += '(쿠폰)';
+
+            if ($(".table tbody tr th").filter(function () {
+                return $(this).text() === name;
+            }).next().next().next().html() != undefined) {
+                var count = $(".table tbody tr th").filter(function () {
+                    return $(this).text() === name;
+                }).next().next().next().html();
+                $(".table tbody tr th").filter(function () {
+                    return $(this).text() === name;
+                }).next().next().next().html(++count);
+            } else {
+                $record.children('th:eq(0)').html(name);
+                $saleprice = $('<div id="originPrice">' + price + '</div>');
+                $saleprice.css('text-decoration', 'line-through');
+                $record.children('th:eq(1)').append('-', salerate, "%", '&nbsp;', '&nbsp;', '&nbsp;', $saleprice, '&nbsp;', '&nbsp;', '&nbsp;', '&nbsp;', '&nbsp;', "→");
+                $record.children('th:eq(2)').text(price * (100 - salerate) / 100);
+                $record.children('th:eq(3)').html(1);
+                $record.children('th:eq(5)').html(type).hide();
+                $('.table tbody').append($record);
+            }
         }
 
         totalprice();
@@ -200,8 +222,12 @@
                 var name = $.trim(data.name);
                 var price = $.trim(data.price);
                 var salerate = $.trim(data.salesRate);
+                var type = $.trim(data.type);
 
-                addOrder(name,price,salerate);
+                if(price == 0)
+                    alert("잘못된 코드이거나 유효기간이 지난 쿠폰입니다.");
+                else
+                    addOrder(name,price,salerate,type);
             },
             fail : function (){
                 alert("fail");
@@ -222,6 +248,30 @@
         });
         //alert(totalprice);
         $('#totalprice').html(totalprice);
+    }
+    function toPayemnt() {
+
+        var senddata = [];
+
+        $('.table tbody tr th').each(function (index) {
+            if((index-1)%6 != 0 && (index-4)%6 != 0)
+                senddata += $(this).text() + '_';
+        });
+        senddata += $('#totalprice').text();
+
+        $.ajax({
+            url: "/insertOrder",
+            type: "POST",
+            contentType: "application/json",
+            data: senddata,
+            success : function (getdata){
+                location.href = 'payment?='+encodeURI(senddata , "UTF-8");
+            },
+            fail : function (){
+                alert("fail");
+            }
+        });
+
     }
 
 

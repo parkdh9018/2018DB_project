@@ -3,8 +3,10 @@ package com.example.demo.DB.DTO;
 public class Coupon {
     private String couponID;
     private String name;
+    private String type;
     private int salesRate;
     private int price;
+
 
     public String getCouponID() {
         return couponID;
@@ -37,5 +39,13 @@ public class Coupon {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
