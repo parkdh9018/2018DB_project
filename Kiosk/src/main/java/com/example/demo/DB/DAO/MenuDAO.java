@@ -69,9 +69,16 @@ public class MenuDAO {
         dBconnect = new DBconnect();
         con = dBconnect.getConnection();
         try{
-            sql = "SELECT * FROM FOOD WHERE CATEGORY = RPAD(?,50)";
-            pstmt = con.prepareStatement(sql);
-            pstmt.setString(1,category);
+            if(category.equals("전체")) {
+                sql = "SELECT * FROM FOOD";
+                pstmt = con.prepareStatement(sql);
+            }
+            else {
+                sql = "SELECT * FROM FOOD WHERE CATEGORY = RPAD(?,50)";
+                pstmt = con.prepareStatement(sql);
+                pstmt.setString(1,category);
+            }
+
 
             rs = pstmt.executeQuery();
 
@@ -89,6 +96,7 @@ public class MenuDAO {
                     food.setPrice(rs.getInt("price"));
                     food.setScoreavg(rs.getString("scoreavg"));
                     food.setImageurl(rs.getString("foodimage"));
+                    food.setSoldout(rs.getString("soldout"));
                     list.add(food);
                 }while(rs.next());
             }else{
@@ -178,9 +186,16 @@ public class MenuDAO {
         dBconnect = new DBconnect();
         con = dBconnect.getConnection();
         try{
-            sql = "SELECT * FROM SETMENU WHERE CATEGORY = RPAD(?,50)";
-            pstmt = con.prepareStatement(sql);
-            pstmt.setString(1,category);
+
+            if(category.equals("전체")) {
+                sql = "SELECT * FROM SETMENU";
+                pstmt = con.prepareStatement(sql);
+            }
+            else{
+                sql = "SELECT * FROM SETMENU WHERE CATEGORY = RPAD(?,50)";
+                pstmt = con.prepareStatement(sql);
+                pstmt.setString(1, category);
+            }
             rs = pstmt.executeQuery();
 
             if(rs.next()){
@@ -191,6 +206,7 @@ public class MenuDAO {
                     setmenu.setCategory(rs.getString("category"));
                     setmenu.setTotalprice(rs.getInt("totalprice"));
                     setmenu.setImageurl(rs.getString("setimage"));
+                    setmenu.setSoldout(rs.getString("soldout"));
 
                     sql = "SELECT * FROM SUBITEM WHERE SETMENUID  = RPAD(?,50) AND TYPE = 'food'";
                     pstmt2 = con.prepareStatement(sql);

@@ -69,6 +69,7 @@ public class HomeController {
                 menu.setImageurl(food.getImageurl());
                 menu.setPrice(food.getPrice());
                 menu.setType("food");
+                menu.setSoldout(food.getSoldout());
                 menulist.add(menu);
             }
             for (Setmenu setmenu : setlist) {
@@ -78,6 +79,7 @@ public class HomeController {
                 menu.setImageurl(setmenu.getImageurl());
                 menu.setPrice(setmenu.getTotalprice());
                 menu.setType("set");
+                menu.setSoldout(setmenu.getSoldout());
                 menulist.add(menu);
             }
         }else{

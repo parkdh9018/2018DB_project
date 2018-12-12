@@ -8,6 +8,7 @@ public class Food {
   private String scoreavg;
   private String category;
   private String imageurl;
+  private String soldout;
 
 
   public int getPrice() {
@@ -51,5 +52,13 @@ public class Food {
 
   public void setImageurl(String imageurl) {
     this.imageurl = imageurl;
+  }
+
+  public String getSoldout() {
+    return soldout;
+  }
+
+  public void setSoldout(String soldout) {
+    this.soldout = soldout;
   }
 }

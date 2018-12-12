@@ -212,6 +212,8 @@
                     var price = $.trim(data[i].price);
                     var imageurl = $.trim(data[i].imageurl);
                     var type = $.trim(data[i].type);
+                    var soldout = $.trim(data[i].soldout);
+                    var path = "img/";
 
                     $menuButton = $('<div class="col-xs-3">\n' +
                         '                <a href="javascript:addOrder(\''+ name+'\','+price+',0,\''+type+'\')" class="thumbnail">\n' +
@@ -220,7 +222,12 @@
                         '                </a>\n' +
                         '            </div>');
 
-                    $menuButton.children().children('img').attr('src',imageurl);
+
+                    if(soldout == 1) {
+                        $menuButton.children().children('img').attr('src', path+'1_'+imageurl);
+                        $menuButton.children().attr('href','#');
+                    }else
+                        $menuButton.children().children('img').attr('src',path+imageurl);
                     $menuButton.children().children('.name').html(component+'<br>');
                     $menuButton.children().children('.price').html(price);
                     $(".col-sm-8").append($menuButton);

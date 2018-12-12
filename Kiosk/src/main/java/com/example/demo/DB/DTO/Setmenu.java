@@ -8,6 +8,7 @@ public class Setmenu {
     private String category;
     private int totalprice;
     private String imageurl;
+    private String soldout;
     private List<String> foodname;
     private List<String> drinkname;
 
@@ -65,5 +66,13 @@ public class Setmenu {
 
     public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
+    }
+
+    public String getSoldout() {
+        return soldout;
+    }
+
+    public void setSoldout(String soldout) {
+        this.soldout = soldout;
     }
 }

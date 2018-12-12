@@ -23,18 +23,29 @@
             <div class="bs-example">
                 <div class="container">
                     <div class="row">
-                        <ul class="nav nav-pills">
-                            <li class="active"><a href="#">한식</a></li>
-                            <li><a href="#">중식</a></li>
-                            <li><a href="#">일식</a></li>
-                            <li><a href="#">양식</a></li>
-                            <li><a href="#">음료</a></li>
-                        </ul>
                         <br>
                         <div class="col-sm-8">
-                            <input type="radio" name="fruit" value="사과" /> 사과
-                            <p></p>
-                            <input type="radio" name="fruit" value="바나나" checked="checked" /> 바나나
+                            <table id="foodtable" class="table">
+                                <thead>
+                                <tr>
+                                    <th>이름</th>
+                                    <th>구성</th>
+                                    <th>가격</th>
+                                    <th>타입</th>
+                                    <th>이미지 경로</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <form onsubmit="">
+                                        <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
+                                        <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
+                                        <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
+                                        <th><input type="submit" class="btn-small" value="추가"></th>
+                                    </form>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
 
                         <div class="col-sm-4">
@@ -76,8 +87,8 @@
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
+        </div>
         <div id="OrderHistoy" class="tab-pane fade">
             <h3>Order History</h3>
         </div>
@@ -108,4 +119,48 @@
 </div>
 </div>
 </body>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.ajax({
+            url: "/getMenu",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: '전체',
+            success : function (data){
+                for(var i=0;i<data.length;i++) {
+
+                    $record = $('<tr>\n' +
+                        '                                    <td id="name"></td>\n' +
+                        '                                    <td id="component"></td>\n' +
+                        '                                    <td id="price"></td>\n' +
+                        '                                    <td id="type"></td>\n' +
+                        '                                    <td id="imageurl"></td>\n' +
+                        '                                    <td></td>\n' +
+                        '                                </tr>');
+
+                    var name = $.trim(data[i].name);
+                    var component = $.trim(data[i].component);
+                    var price = $.trim(data[i].price);
+                    var imageurl = $.trim(data[i].imageurl);
+                    var type = $.trim(data[i].type);
+
+                    $record.children('#name').text(name);
+                    $record.children('#component').text(component);
+                    $record.children('#price').text(price);
+                    $record.children('#type').text(type);
+                    $record.children('#imageurl').text(imageurl);
+
+
+                    $('#foodtable tbody').prepend($record);
+
+                }
+            },
+            fail : function (){
+                alert("fail");
+            }
+        });
+
+    });
+</script>
 </html>

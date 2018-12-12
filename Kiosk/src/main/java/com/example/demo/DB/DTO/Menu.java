@@ -6,6 +6,7 @@ public class Menu {
     private int price;
     private String imageurl;
     private String type;
+    private String soldout;
 
     public String getName() {
         return name;
@@ -45,5 +46,13 @@ public class Menu {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getSoldout() {
+        return soldout;
+    }
+
+    public void setSoldout(String soldout) {
+        this.soldout = soldout;
     }
 }
