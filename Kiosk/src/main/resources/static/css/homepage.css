@@ -42,6 +42,10 @@
     margin-left: 20px;
 }
 
+#menubar{
+    margin-left: 40px;
+}
+
 .basicDiv, #cardinfo{
     display: inline;
 }
