@@ -76,15 +76,6 @@ public class OrderDAO {
         }
     }
 
-    public Orderitem getOrder(String ordercode){
-
-        Orderitem orderitem = new Orderitem();
-
-
-
-
-        return orderitem;
-    }
 
 
 

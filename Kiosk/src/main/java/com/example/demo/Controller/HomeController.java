@@ -2,6 +2,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.DB.DAO.MenuDAO;
 import com.example.demo.DB.DAO.OrderDAO;
+import com.example.demo.DB.DAO.StoreDAO;
 import com.example.demo.DB.DTO.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -146,10 +147,26 @@ public class HomeController {
             }
         }
         int totalprice = Integer.parseInt(splitdata[splitdata.length-1]);
-        //orderDAO.insertOrder(ordercode, type,name,cnt, totalprice);
+        orderDAO.insertOrder(ordercode, type,name,cnt, totalprice);
 
         return ordercode;
 
     }
+
+    @ResponseBody
+    @PostMapping("/getStoreinfo")
+    public Store getStorinfo(){
+        Store store = new Store();
+
+        StoreDAO storeDAO = new StoreDAO();
+
+        store = storeDAO.getRandomStore();
+
+        System.out.println(store.getPhone());
+        System.out.println(store.getAddress());
+
+        return store;
+    }
+
 
 }

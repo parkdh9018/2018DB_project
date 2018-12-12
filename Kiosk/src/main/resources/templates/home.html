@@ -64,7 +64,7 @@
                     <h4 id="total">총 금액 : <div id="totalprice"></div>원</h4>
                     <p>
                         <a href="#CardModal" role="button" class="btn btn-success btn-small" data-toggle="modal">카드결제</a>
-                        <input type="submit" class="btn btn-success btn-small" value="현금결제" onclick="javascript:toPayemnt()">
+                        <a href="#CashModal" role="button" class="btn btn-success btn-small" data-toggle="modal">현금결제</a>
                     </p>
                     <p>
                         <!--<input type="submit" class="btn btn-success btn-small" value="쿠폰입력" onclick="location.href='coupon'">-->
@@ -98,6 +98,9 @@
                             </div>
                         </div>
                     </div>
+
+
+                <!-- 카드입력 modal -->
                     <div id="CardModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -111,7 +114,7 @@
                                         <div id="card" class="col-xs-5">
                                             <p>카드번호를 입력해주세요.</p>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" placeholder="카드번호&hellip;">
+                                                <input type="text" id="cardvalue" class="form-control" placeholder="카드번호&hellip;">
                                             </div>
                                         </div>
                                     </div><br>
@@ -119,7 +122,7 @@
                                         <div id="bank" class="col-xs-5">
                                             <p>은행을 선택해주세요.</p>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" placeholder="은행&hellip;">
+                                                <input type="text" id="bankvalue" class="form-control" placeholder="은행&hellip;">
                                             </div>
                                         </div>
                                     </div><br>
@@ -127,19 +130,47 @@
                                         <div id="person" class="col-xs-5">
                                             <p>예금주를 입력해주세요.</p>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" placeholder="예금주&hellip;">
+                                                <input type="text" id="personvalue" class="form-control" placeholder="예금주&hellip;">
                                             </div>
                                         </div>
                                     </div>
                                 </form>
                                 <br>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" onclick="javascript:couponCheck()" >확인</button>
+                                    <button type="button" class="btn btn-primary" onclick="javascript:toPayemnt('card')" >확인</button>
                                     <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                <!-- 현금 modal -->
+                <div id="CashModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">금액</h4>
+                            </div>
+                            <br>
+                            <form>
+                                <div class="row">
+                                    <div id="cash" class="col-xs-5">
+                                        <p>금액을 입력하세요</p>
+                                        <div class="input-group">
+                                            <input type="text" id="cashvalue" class="form-control" placeholder="금액&hellip;">
+                                        </div>
+                                    </div>
+                                </div><br>
+                            </form>
+                            <br>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="javascript:toPayemnt('cash')" >확인</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -299,7 +330,7 @@
         //alert(totalprice);
         $('#totalprice').html(totalprice);
     }
-    function toPayemnt() {
+    function toPayemnt(method) {
 
         var senddata = [];
 
@@ -315,7 +346,23 @@
             contentType: "application/json",
             data: senddata,
             success : function (getdata){
-                location.href = 'payment?='+encodeURI(senddata , "UTF-8");
+                if(method == 'card') {
+                    var s = 'payment?=' + senddata + "_" + getdata
+                        + '=card' + '_' + $('#cardvalue').val() + '_' + $('#bankvalue').val() + '_' + $('#personvalue').val();
+                    location.href = encodeURI(s, 'UTF-8');
+                }else if(method == 'cash') {
+                    if(!$.isNumeric($('#cashvalue').val()))
+                        alert('정확한 금액을 입력해 주세요');
+                    else {
+                        if ($('#cashvalue').val() < 0 || $('#cashvalue').val() < $('#totalprice').text())
+                            alert('정확한 금액을 입력해 주세요');
+                        else {
+                            var s = 'payment?=' + senddata + "_" + getdata
+                                + '=cash' + '_' + $('#cashvalue').val();
+                            location.href = encodeURI(s, 'UTF-8');
+                        }
+                    }
+                }
             },
             fail : function (){
                 alert("fail");

@@ -39,8 +39,8 @@
             <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tblTop2">
                 <tr>
                     <td width="45%" class="noTd">주문번호. <span class="noStxt">20091201</span></td>
-                    <td class="name">일지매 님</td>
-                    <td width="10%">귀하</td>
+                    <td class="name"></td>
+                    <td width="10%"></td>
                 </tr>
             </table>
             <table width="100%" cellpadding="0" cellspacing="0" class="tbl stamp">
@@ -54,24 +54,24 @@
                 </tr>
                 <tr>
                     <th>상호</th>
-                    <td width="25%" align="center">OOO닷컴</td>
+                    <td width="25%" align="center">FOOD COURT</td>
                     <th width="14%">성명</th>
-                    <td align="center">홍길동</td>
+                    <td id="spname" align="center">홍길동</td>
                 </tr>
                 <tr>
                     <th>사업자<br>
                         소재지</th>
-                    <td colspan="3">부산시 O구 OO동 777-4번지 OO빌딩1층</td>
+                    <td id="spAddress" colspan="3"></td>
                 </tr>
                 <tr>
                     <th>업태</th>
-                    <td align="center">도소매</td>
+                    <td align="center">음식점업</td>
                     <th>종목</th>
-                    <td align="center">OO류</td>
+                    <td align="center">음식</td>
                 </tr>
                 <tr>
                     <th>전화</th>
-                    <td colspan="3">000)4321-4321</td>
+                    <td id="spPhone" colspan="3"></td>
                 </tr>
             </table>
             <table width="100%" cellspacing="0" cellpadding="0" class="tbl">
@@ -96,33 +96,61 @@
                     <th>공급대가(금액)</th>
                 </tr>
             </table>
-            <div class="basicDiv">
-                부가가치 세법시행규칙 제25조의 규정에 의하여 위 금액을 정히 영수함.</div>
+
+
+            </div>
+
+
         </div>
     </div>
+<br><br>
+<button type="button" class="btn btn-primary" onclick="location.href = 'home'">확인</button>
 </body>
 <script type="text/javascript">
     $(document).ready(function(){
 
+        var today = new Date();
+        var todayString = today.getFullYear()+"년 "+(today.getMonth()+1)+"월 "+today.getDate()+"일";
+
+        $('.date').html(todayString);
+
+        $.ajax({
+            url: "/getStoreinfo",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            success : function (data){
+                $('.tx1').text( data.crn);
+                $('#spname').text(data.manager);
+                $('#spAddress').text(data.address);
+                $('#spPhone').text(data.phone);
+            },
+            fail : function (){
+                alert("fail");
+            }
+        });
 
         var url_string = window.location.href;
 
         url_string = decodeURI(url_string);
 
-        var splitdata = [];
-        splitdata = url_string.split("=")[1].split(/_+/);
+        var splitdata = url_string.split("=")[1].split(/_+/);
+        var methodData = url_string.split("=")[2].split(/_+/);
+
+
         var count = [];
         var name = [];
         var price = [];
         var cnt = 0;
 
-        for(var i=4;i<splitdata.length+3;i+=4){
+        for(var i=4;i<splitdata.length+1;i+=4){
                 price[cnt] = splitdata[i-3]; //price
                 name[cnt] = splitdata[i - 4]; //name
                 count[cnt++] = splitdata[i-2]; //count
         }
 
-        $('.total').text(splitdata[splitdata.length-1]);
+        $('.total').text(splitdata[splitdata.length-2]);    //총 가격
+        $('.noStxt').text(splitdata[splitdata.length-1]);   //주문번호
 
         for(var i=0;i<cnt;i++) {
 
@@ -138,6 +166,39 @@
             $('#itemlist').append($record);
         }
 
+        if(methodData[0] == 'card'){
+
+            $tmpinfo = $('<div class="basicDiv" id="info">신 용 카 드 매 출 내 역<br>\n' +
+                '                <div id="cardinfo">\n' +
+                '               <div id="bank"></div>\n' +
+                '               <div id="cardid"></div>\n' +
+                '               <div id="account"></div>\n' +
+                '                </div></div>            <div class="basicDiv">\n' +
+                '                부가가치 세법시행규칙 제25조의 규정에 의하여 위 금액을 정히 영수함.</div>');
+
+            $tmpinfo.children().children('#bank').text(" 은행명  :  "+methodData[2]);
+            $tmpinfo.children().children('#cardid').text(" 카드번호  :  "+methodData[1]);
+            $tmpinfo.children().children('#account').text(" 이름  :  "+methodData[3]);
+
+
+        }
+        else if(methodData[0] == 'cash')
+        {
+
+            $tmpinfo = $('<div class="basicDiv" id="info">현 금 영 수 증 ( 소 득 공 제 )<br>\n' +
+                '                <div id="cardinfo">\n' +
+                '                <div id="totalprice"></div>\n' +
+                '                <div id="cash"></div>\n' +
+                '                <div id="remain"></div>\n' +
+                '                </div></div>            <div class="basicDiv">\n' +
+                '                부가가치 세법시행규칙 제25조의 규정에 의하여 위 금액을 정히 영수함.</div>');
+
+            $tmpinfo.children().children('#totalprice').text("합계금액  :  "+splitdata[splitdata.length-2]);
+            $tmpinfo.children().children('#cash').text("받은금액  :  "+methodData[1]);
+            $tmpinfo.children().children('#remain').text("거스름돈  :  "+(methodData[1] - splitdata[splitdata.length-2]));
+
+        }
+            $('#receipt').children().append($tmpinfo);
 
     });
 </script>

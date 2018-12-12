@@ -38,6 +38,10 @@
     width: 20%;
 }
 
-#coupon-code, #card, #bank, #person{
+#coupon-code, #card, #bank, #person ,#cash{
     margin-left: 20px;
+}
+
+.basicDiv, #cardinfo{
+    display: inline;
 }
