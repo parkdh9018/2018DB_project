@@ -63,30 +63,80 @@
                     <br>
                     <h4 id="total">총 금액 : <div id="totalprice"></div>원</h4>
                     <p>
-                        <input type="submit" class="btn btn-success btn-small" value="카드결제" onclick="javascript:toPayemnt()">
+                        <a href="#CardModal" role="button" class="btn btn-success btn-small" data-toggle="modal">카드결제</a>
                         <input type="submit" class="btn btn-success btn-small" value="현금결제" onclick="javascript:toPayemnt()">
                     </p>
                     <p>
                         <!--<input type="submit" class="btn btn-success btn-small" value="쿠폰입력" onclick="location.href='coupon'">-->
-                        <a href="#myModal" role="button" class="btn btn-success btn-small" data-toggle="modal">쿠폰입력</a>
+                        <a href="#CouponModal" role="button" class="btn btn-success btn-small" data-toggle="modal">쿠폰입력</a>
                         <input type="reset" class="btn btn-success btn-small" value="주문 초기화" onclick="javascript:resetOrder()">
                     </p>
                     <!-- 쿠폰입력 modal -->
-                    <div id="myModal" class="modal fade">
+                    <div id="CouponModal" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                     <h4 class="modal-title">쿠폰확인</h4>
                                 </div>
-                                    <div class="modal-body">
-                                        <p>쿠폰 코드를 입력해주세요.</p>
-                                        <input type="text" id="couponid" class="code" size="50">
+                                <br>
+                                <form>
+                                    <div class="row">
+                                        <div id="coupon-code" class="col-xs-5">
+                                            <p>쿠폰 코드를 입력해주세요.</p>
+                                            <div class="input-group">
+                                                <input type="text" id="couponid" class="form-control" placeholder="쿠폰 코드&hellip;">
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" onclick="javascript:couponCheck()" >확인</button>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                                </form>
+                                <br>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" onclick="javascript:couponCheck()">확인</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="CardModal" class="modal fade">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">카드확인</h4>
+                                </div>
+                                <br>
+                                <form>
+                                    <div class="row">
+                                        <div id="card" class="col-xs-5">
+                                            <p>카드번호를 입력해주세요.</p>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="카드번호&hellip;">
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div id="bank" class="col-xs-5">
+                                            <p>은행을 선택해주세요.</p>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="은행&hellip;">
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div id="person" class="col-xs-5">
+                                            <p>예금주를 입력해주세요.</p>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="예금주&hellip;">
+                                            </div>
+                                        </div>
                                     </div>
+                                </form>
+                                <br>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" onclick="javascript:couponCheck()" >확인</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -210,7 +260,7 @@
         
     }
     function couponCheck() {
-        $('#myModal').modal('hide');
+        $('#CouponModal').modal('hide');
         var couponid = $('#couponid').val();
         $.ajax({
             url: "/getCoupon",

@@ -37,3 +37,7 @@
 #bar{
     width: 20%;
 }
+
+#coupon-code, #card, #bank, #person{
+    margin-left: 20px;
+}
