@@ -7,6 +7,7 @@ public class Setmenu {
     private String setmenuid;
     private String category;
     private int totalprice;
+    private String imageurl;
     private List<String> foodname;
     private List<String> drinkname;
 
@@ -58,4 +59,11 @@ public class Setmenu {
         return result;
     }
 
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
+    }
 }

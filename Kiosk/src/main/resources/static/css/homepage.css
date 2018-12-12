@@ -20,4 +20,32 @@
     text-align: center;
 }
 
+#total, #totalprice, #originPrice{
+    display: inline;
+}
+
+#receipt{
+    text-align: center;
+}
+
 .centered { display: table; margin-left: auto; margin-right: auto; }
+
+#receipt{
+    text-align: center;
+}
+
+#bar{
+    width: 20%;
+}
+
+#coupon-code, #card, #bank, #person ,#cash{
+    margin-left: 20px;
+}
+
+#menubar{
+    margin-left: 40px;
+}
+
+.basicDiv, #cardinfo{
+    display: inline;
+}

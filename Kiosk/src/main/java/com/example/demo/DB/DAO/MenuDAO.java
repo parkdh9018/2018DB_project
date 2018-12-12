@@ -1,9 +1,7 @@
 package com.example.demo.DB.DAO;
 
 import com.example.demo.DB.DBconnect;
-import com.example.demo.DB.DTO.Drink;
-import com.example.demo.DB.DTO.Food;
-import com.example.demo.DB.DTO.Setmenu;
+import com.example.demo.DB.DTO.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -90,6 +88,7 @@ public class MenuDAO {
                     food.setFoodname(rs.getString("foodname"));
                     food.setPrice(rs.getInt("price"));
                     food.setScoreavg(rs.getString("scoreavg"));
+                    food.setImageurl(rs.getString("foodimage"));
                     list.add(food);
                 }while(rs.next());
             }else{
@@ -120,11 +119,46 @@ public class MenuDAO {
 
                 do {
                     Drink drink = new Drink();
-                    drink.setCategory(rs.getString("category"));
                     drink.setDrinkname(rs.getString("drinkname"));
-                    drink.setDrinksize(rs.getString("drinksize"));
-                    drink.setPrice(rs.getString("price"));
+                    drink.setPrice(rs.getInt("price"));
+                    drink.setImageurl(rs.getString("drinkimage"));
                     list.add(drink);
+                }while(rs.next());
+            }else{
+                list = Collections.EMPTY_LIST;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            DBconnect.close(con, pstmt,rs);
+        }
+
+        return list;
+    }
+    public List<Allergy> getAllergyList(){
+        List<Allergy> list = null;
+        dBconnect = new DBconnect();
+        con = dBconnect.getConnection();
+        try{
+            sql = "SELECT FOOD.FOODNAME, listagg(INGREDIENT.INGREDIENTNAME, ', ') within group(order by INGREDIENT.INGREDIENTNAME ) AS INGREDIENT\n" +
+                    "FROM FOOD ,FOOD_INGREDIENT,INGREDIENT\n" +
+                    "WHERE FOOD.FOODNAME = FOOD_INGREDIENT.FOODNAME AND\n" +
+                    "       INGREDIENT.INGREDIENTNAME = FOOD_INGREDIENT.INGREDIENTNAME AND\n" +
+                    "       ALLERGY = 1\n" +
+                    "group by FOOD.FOODNAME";
+            pstmt = con.prepareStatement(sql);
+
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+
+                list = new ArrayList<Allergy>();
+                do {
+                    Allergy allergy = new Allergy();
+                    allergy.setFood(rs.getString("foodname"));
+                    allergy.setIngredient(rs.getString("ingredient"));
+                    list.add(allergy);
                 }while(rs.next());
             }else{
                 list = Collections.EMPTY_LIST;
@@ -156,6 +190,7 @@ public class MenuDAO {
                     setmenu.setSetmenuid(rs.getString("setmenuid"));
                     setmenu.setCategory(rs.getString("category"));
                     setmenu.setTotalprice(rs.getInt("totalprice"));
+                    setmenu.setImageurl(rs.getString("setimage"));
 
                     sql = "SELECT * FROM SUBITEM WHERE SETMENUID  = RPAD(?,50) AND TYPE = 'food'";
                     pstmt2 = con.prepareStatement(sql);
@@ -193,7 +228,51 @@ public class MenuDAO {
         return list;
 
     }
+    public Coupon getCoupon(String couponId){
+        Coupon coupon = new Coupon();
+        dBconnect = new DBconnect();
+        con = dBconnect.getConnection();
+        try{
+            sql = "(SELECT SALESITEM.FOODNAME as name, SALERATE, FOOD.PRICE AS PRICE, TYPE\n" +
+                    " FROM SALESITEM, FOOD\n" +
+                    " WHERE COUPONID=RPAD(?,50) AND TYPE='food' AND USED='0' AND EXPIRATIONDATE >= TO_DATE(SYSDATE, 'YYYY-MM-DD HH24:MI:SS')\n" +
+                    " AND SALESITEM.FOODNAME = FOOD.FOODNAME )\n" +
+                    "UNION\n" +
+                    "(SELECT SALESITEM.SETMENUID as name, SALERATE, SETMENU.TOTALPRICE AS PRICE, TYPE\n" +
+                    " FROM SALESITEM, SETMENU\n" +
+                    " WHERE COUPONID=RPAD(?,50) AND TYPE='set' AND USED='0'AND EXPIRATIONDATE >= TO_DATE (SYSDATE, 'YYYY-MM-DD HH24:MI:SS')\n" +
+                    "AND SALESITEM.SETMENUID = SETMENU.SETMENUID)\n" +
+                    "UNION\n" +
+                    "(SELECT SALESITEM.DRINKNAME as name, SALERATE, DRINK.PRICE AS PRICE, TYPE\n" +
+                    " FROM SALESITEM, DRINK\n" +
+                    " WHERE COUPONID=RPAD(?,50) AND TYPE='drink' AND USED='0'AND EXPIRATIONDATE >= TO_DATE (SYSDATE, 'YYYY-MM-DD HH24:MI:SS')\n" +
+                    "AND SALESITEM.DRINKNAME = DRINK.DRINKNAME)";
 
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1,couponId);
+            pstmt.setString(2,couponId);
+            pstmt.setString(3,couponId);
+
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+                do{
+                    coupon.setName(rs.getString("name"));
+                    coupon.setSalesRate(rs.getInt("SALERATE"));
+                    coupon.setPrice(rs.getInt("price"));
+                    coupon.setType(rs.getString("type"));
+                }while(rs.next());
+            }
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            DBconnect.close(con, pstmt,rs);
+        }
+
+        return coupon;
+    }
 
 
 }

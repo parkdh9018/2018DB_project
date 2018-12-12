@@ -6,8 +6,9 @@ public class Drink {
   private String category;
   private String drinksize;
   private String drinkname;
-  private String price;
+  private int price;
   private String companyname;
+  private String imageurl;
 
 
   public String getCategory() {
@@ -37,11 +38,11 @@ public class Drink {
   }
 
 
-  public String getPrice() {
+  public int getPrice() {
     return price;
   }
 
-  public void setPrice(String price) {
+  public void setPrice(int price) {
     this.price = price;
   }
 
@@ -54,4 +55,11 @@ public class Drink {
     this.companyname = companyname;
   }
 
+  public String getImageurl() {
+    return imageurl;
+  }
+
+  public void setImageurl(String imageurl) {
+    this.imageurl = imageurl;
+  }
 }

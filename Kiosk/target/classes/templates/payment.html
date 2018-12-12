@@ -11,20 +11,41 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+<nav id="myNavbar" class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">FOOD COURT</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="nav navbar-nav">
+                <li><a href="home">Home</a></li>
+                <li><a href="evaluation">음식 평가</a></li>
+                <li><a href="#none" onclick="alert('잠시만 기다려주세요')">직원 호출</a></li>
+                <li><a href="support">알러지 정보</a></li>
+                <li><a href="login" onclick="window.open(this.href, '_blank', 'width=500px,height=200px,toolbars=no,scrollbars=no'); return false;">관리자 모드</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <div class="jumbotron">
-    <form><!-- form method,action 설정 필요 -->
-        <p>
-            <!-- 음식 목록 표시 -->
-        </p>
-        <h2>총 금액: </h2><!-- 총 금액 표시 -->
-        <br/>
-        <h3> 결제를 완료해 주세요 </h3>
-        <br/>
-        <p>
-            <input type="submit" value="결제 완료" class="btn btn-success btn-lg" onclick="alert('처리 완료')"></input>
-            <button type="reset" class="btn btn-success btn-lg">취소</button>
-        </p>
-    </form>
+    <div id="receipt">
+        <form action="/home">
+            <h2>주문 번호: </h2>
+            <br>
+            <h3>[판매영수증] 서울시 강남구점</h3>
+            <h3>매니저 : 매니저명 02-9184-9283</h3>
+            <h3>결제수단 : 카드</h3>
+            <h3>주문목록</h3>
+            <h3>합계금액 : </h3>
+            <h3>광고 : </h3>
+            <p>
+                <input type="submit" class="btn btn-success btn-small" value="결제 완료" onclick="alert('처리 완료')">
+                <input type="reset" class="btn btn-success btn-small" value="취소" onclick="javascript:history.back()">
+            </p>
+        </form>
+    </div>
 </div>
 </body>
 </html>

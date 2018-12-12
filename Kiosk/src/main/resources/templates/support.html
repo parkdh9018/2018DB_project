@@ -15,12 +15,11 @@
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">FOOD COURT</a>
+            <a class="navbar-brand" href="home">FOOD COURT</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="nav navbar-nav">
-                <li><a href="home">Home</a></li>
                 <li><a href="evaluation">음식 평가</a></li>
                 <li><a href="#none" onclick="alert('잠시만 기다려주세요')">직원 호출</a></li>
                 <li class="active"><a href="support">알러지 정보</a></li>
@@ -42,34 +41,49 @@
 <div>
     <table class="table table-striped">
         <thead>
+        <h2>알러지 유발 식품 표시판</h2>
         <tr>
-            <th>Row</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
+            <th>음식</th>
+            <th>재료</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>1</td>
-            <td>John</td>
-            <td>Carter</td>
-            <td>johncarter@mail.com</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Peter</td>
-            <td>Parker</td>
-            <td>peterparker@mail.com</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>John</td>
-            <td>Rambo</td>
-            <td>johnrambo@mail.com</td>
-        </tr>
+
         </tbody>
     </table>
 </div>
 </body>
+<script type="text/javascript">
+
+
+
+    $(document).ready(function(){
+        $.ajax({
+            url: "/getAllergy",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: null,
+            success : function (data){
+                for(var i=0;i<data.length;i++) {
+                    $record = $('<tr>\n' +
+                        '<th></th>\n' +
+                        '<th></th>\n' +
+                        '</tr>');
+
+                    var foodname = $.trim(data[i].food);
+                    var ingredient = $.trim(data[i].ingredient);
+                    $record.children('th:eq(0)').html(foodname);
+                    $record.children('th:eq(1)').html(ingredient);
+                    $('.table-striped tbody').append($record);
+                }
+            },
+            fail : function (){
+                alert("fail");
+            }
+        });
+    });
+
+
+</script>
 </html>
