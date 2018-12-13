@@ -1,12 +1,17 @@
 package com.example.demo.DB.DAO;
 
 import com.example.demo.DB.DBconnect;
+import com.example.demo.DB.DTO.Food;
 import com.example.demo.DB.DTO.Orderitem;
+import com.example.demo.DB.DTO.Ordermenu;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class OrderDAO {
 
@@ -74,6 +79,46 @@ public class OrderDAO {
         }finally {
             DBconnect.close(con, pstmt);
         }
+    }
+
+    public List<Ordermenu> getAllOrder(){
+        List<Ordermenu> list = null;
+        dBconnect = new DBconnect();
+        con = dBconnect.getConnection();
+        try{
+
+
+                sql = "SELECT * FROM ORDERMENU";
+                pstmt = con.prepareStatement(sql);
+
+
+            rs = pstmt.executeQuery();
+
+            if(!rs.isBeforeFirst())
+                System.out.println("no data");
+
+            if(rs.next()){
+
+                list = new ArrayList<Ordermenu>();
+
+                do {
+                    Ordermenu ordermenu = new Ordermenu();
+                    ordermenu.setOrdercode(rs.getString("ordercode"));
+                    ordermenu.setOrdereddate(rs.getDate("ordereddate"));
+                    ordermenu.setTotalprice(rs.getString("totalprice"));
+                    list.add(ordermenu);
+                }while(rs.next());
+            }else{
+                list = Collections.EMPTY_LIST;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            DBconnect.close(con, pstmt,rs);
+        }
+
+        return list;
     }
 
 

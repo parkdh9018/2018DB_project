@@ -170,5 +170,39 @@ public class HomeController {
         return store;
     }
 
+    @ResponseBody
+    @PostMapping("/modifySoldout")
+    public void modifySoldout(@RequestBody String data){
+
+        System.out.println("soldout : "+data);
+        MenuDAO menuDAO = new MenuDAO();
+
+        menuDAO.modifySoldout(data.split("_")[0],data.split("_")[1]);
+
+    }
+
+    @ResponseBody
+    @PostMapping("/getAllOrder")
+    public List<Ordermenu> getAllOrder(){
+
+        OrderDAO orderDAO = new OrderDAO();
+
+
+        return orderDAO.getAllOrder();
+
+
+    }
+
+    @ResponseBody
+    @PostMapping("/getClerk")
+    public List<Clerk> getClerk(){
+        MenuDAO menuDAO = new MenuDAO();
+        List<Clerk> list = new ArrayList<Clerk>();
+
+        list.addAll(menuDAO.getClerk());
+        //.System.out.println("list size : "+list.size());
+
+        return list;
+    }
 
 }

@@ -290,5 +290,71 @@ public class MenuDAO {
         return coupon;
     }
 
+    public void modifySoldout(String name, String type){
+
+        dBconnect = new DBconnect();
+        con = dBconnect.getConnection();
+        try{
+
+            if("food".equals(type))
+                sql = "update FOOD set SOLDOUT = CASE WHEN SOLDOUT = 1 THEN 0\n" +
+                        "                                  WHEN SOLDOUT = 0 THEN 1 END\n" +
+                        "where FOODNAME = RPAD(?,50)";
+            else if("set".equals(type))
+                sql = "update FOOD set SOLDOUT = CASE WHEN SOLDOUT = 1 THEN 0\n" +
+                        "                                  WHEN SOLDOUT = 0 THEN 1 END\n" +
+                        "where FOODNAME = RPAD(?,50)";
+            else if("drink".equals(type))
+                sql = "update FOOD set SOLDOUT = CASE WHEN SOLDOUT = 1 THEN 0\n" +
+                        "                                  WHEN SOLDOUT = 0 THEN 1 END\n" +
+                        "where FOODNAME = RPAD(?,50)";
+
+            pstmt = con.prepareStatement(sql);
+
+            pstmt.setString(1, name);
+            pstmt.executeUpdate();
+
+
+        }catch (Exception e ){
+            e.printStackTrace();
+        }finally {
+            DBconnect.close(con, pstmt);
+        }
+    }
+
+    public List<Clerk> getClerk(){
+        List<Clerk> list = null;
+        dBconnect = new DBconnect();
+        con = dBconnect.getConnection();
+        try{
+            sql = "SELECT * FROM CLERK ";
+            pstmt = con.prepareStatement(sql);
+
+            rs = pstmt.executeQuery();
+
+            if(rs.next()){
+
+                list = new ArrayList<>();
+
+                do {
+                    Clerk clerk = new Clerk();
+                    clerk.setPosition(rs.getString("position"));
+                    clerk.setName(rs.getString("name"));
+                    clerk.setEmpno(rs.getString("empno"));
+                    list.add(clerk);
+                }while(rs.next());
+            }else{
+                list = Collections.EMPTY_LIST;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            DBconnect.close(con, pstmt,rs);
+        }
+
+        return list;
+    }
+
 
 }

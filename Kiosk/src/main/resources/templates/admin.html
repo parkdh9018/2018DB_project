@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet"href="css/adminpage.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -25,27 +26,34 @@
                     <div class="row">
                         <br>
                         <div class="col-sm-8">
-                            <table id="foodtable" class="table">
+                            <table class="table">
                                 <thead>
                                 <tr>
                                     <th>이름</th>
                                     <th>구성</th>
                                     <th>가격</th>
-                                    <th>타입</th>
-                                    <th>이미지 경로</th>
+                                    <th>매진여부</th>
                                 </tr>
                                 </thead>
+                            </table>
+                            <div class="table-wrapper-scroll-y">
+                            <table id="foodtable" class="table">
                                 <tbody>
-                                <tr>
-                                    <form onsubmit="">
-                                        <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
-                                        <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
-                                        <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
-                                        <th><input type="submit" class="btn-small" value="추가"></th>
-                                    </form>
-                                </tr>
                                 </tbody>
                             </table>
+                            </div>
+                                <table class="table">
+                                    <tr>
+                                <form onsubmit="">
+                                    <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
+                                    <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
+                                    <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
+                                    <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
+                                    <th><input type="submit" class="btn-small" value="추가"></th>
+                                </form>
+                                    </tr>
+                                </table>
+
                         </div>
 
                         <div class="col-sm-4">
@@ -90,29 +98,81 @@
             </div>
         </div>
         <div id="OrderHistoy" class="tab-pane fade">
-            <h3>Order History</h3>
+            <div class="bs-example">
+                <div class="container">
+                    <div class="row">
+                        <br>
+                        <div class="col-sm-8">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>주문번호</th>
+                                    <th>가격</th>
+                                </tr>
+                                </thead>
+                            </table>
+                            <div class="table-wrapper-scroll-y">
+                                <table id="Ordertable" class="table">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <table class="table">
+                                <tr>
+                                    <form onsubmit="">
+                                        <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
+                                        <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
+                                        <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
+                                        <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
+                                        <th><input type="submit" class="btn-small" value="추가"></th>
+                                    </form>
+                                </tr>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="EmployeeInfo" class="tab-pane fade">
-            <h3>Employee Info</h3>
-            <table border="1">
-                <th>담당</th>
-                <th>이름</th>
-                <th>사원 번호</th>
-                <tr><!-- 첫번째 줄 시작 -->
-                    <td>첫번째 칸</td>
-                    <td>두번째 칸</td>
-                    <td>세번째 칸</td>
-                </tr><!-- 첫번째 줄 끝 -->
-                <tr><!-- 두번째 줄 시작 -->
-                    <td>첫번째 칸</td>
-                    <td>두번째 칸</td>
-                    <td>세번째 칸</td>
-                </tr><!-- 두번째 줄 끝 -->
-                <tr><!-- 두번째 줄 시작 -->
-                    <td>첫번째 칸</td>
-                    <td>두번째 칸</td>
-                    <td>세번째 칸</td>
-                </tr><!-- 두번째 줄 끝 -->
+            <div class="bs-example">
+                <div class="container">
+                    <div class="row">
+                        <br>
+                        <div class="col-sm-8">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>이름</th>
+                                    <th>직책</th>
+                                </tr>
+                                </thead>
+                            </table>
+                            <div class="table-wrapper-scroll-y">
+                                <table id="clerktable" class="table">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <table class="table">
+                                <tr>
+                                    <form onsubmit="">
+                                        <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
+                                        <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
+                                        <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
+                                        <th><input type="text" class="form-control" placeholder="Search&hellip;"></th>
+                                        <th><input type="submit" class="btn-small" value="추가"></th>
+                                    </form>
+                                </tr>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
             </table>
         </div>
     </div>
@@ -135,8 +195,7 @@
                         '                                    <td id="component"></td>\n' +
                         '                                    <td id="price"></td>\n' +
                         '                                    <td id="type"></td>\n' +
-                        '                                    <td id="imageurl"></td>\n' +
-                        '                                    <td></td>\n' +
+                        '                                    <td><button id="soldout" class="btn-primary btn-small">O</button></td>\n' +
                         '                                </tr>');
 
                     var name = $.trim(data[i].name);
@@ -149,8 +208,7 @@
                     $record.children('#component').text(component);
                     $record.children('#price').text(price);
                     $record.children('#type').text(type);
-                    $record.children('#imageurl').text(imageurl);
-
+                    $record.children('#type').hide();
 
                     $('#foodtable tbody').prepend($record);
 
@@ -160,7 +218,100 @@
                 alert("fail");
             }
         });
+        $.ajax({
+            url: "/getAllOrder",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            success : function (data){
+                for(var i=0;i<data.length;i++) {
+
+                    $record = $('<tr>\n' +
+                        '                                    <td id="ordercode"></td>\n' +
+                        '                                    <td id="totalprice"></td>\n' +
+                        '                                </tr>');
+
+                    var ordercode = $.trim(data[i].ordercode);
+                    var orderdate = $.trim(data[i].orderdate);
+                    var totalprice = $.trim(data[i].totalprice);
+
+                    $record.children('#ordercode').text(ordercode);
+                    $record.children('#orderdate').text(orderdate);
+                    $record.children('#totalprice').text(totalprice);
+
+
+                    $('#Ordertable tbody').prepend($record);
+
+                }
+            },
+            fail : function (){
+                alert("fail");
+            }
+        });
+
+                $.ajax({
+                    url: "/getClerk",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: null,
+                    success : function (data){
+                        for(var i=0;i<data.length;i++) {
+                            $record = $('<tr>\n' +
+                                '<th id="empno"></th>\n' +
+                                '<th id="name"></th>\n' +
+                                '<th id="position"></th>\n' +
+                                '</tr>');
+
+                            var empno = $.trim(data[i].empno);
+                            var position = $.trim(data[i].position);
+                            var name = $.trim(data[i].name);
+
+                            $record.children('#empno').text(empno);
+                            $record.children('#position').text(position);
+                            $record.children('#name').text(name);
+
+
+                            $('#clerktable tbody').prepend($record);
+                        }
+                    },
+                    fail : function (){
+                        alert("fail");
+                    }
+                });
+
 
     });
+
+    $(document).on('click','#soldout',function () {
+
+        if($(this).text() == "O")
+            $(this).text("X");
+        else
+            $(this).text("O");
+
+
+        var name = $(this).parent().parent().children('#name').text();
+        var type = $(this).parent().parent().children('#type').text();
+
+        var senddata = name+'_'+type;
+
+        $.ajax({
+            url: "/modifySoldout",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: senddata,
+            success : function (){
+
+            },
+            fail : function (){
+                alert("fail");
+            }
+        });
+
+    });
+
+
 </script>
 </html>
